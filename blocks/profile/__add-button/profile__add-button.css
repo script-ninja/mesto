@@ -13,6 +13,10 @@
   transition: opacity 0.2s ease;
 }
 
+.profile__add-button, .profile__add-button:active, .profile__add-button:focus {
+  outline: none;
+}
+
 .profile__add-button:hover {
   opacity: 0.6;
   cursor: pointer;
