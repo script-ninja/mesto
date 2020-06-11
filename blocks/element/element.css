@@ -1,0 +1,18 @@
+@import url(./__image/element__image.css);
+@import url(./__caption/element__caption.css);
+@import url(./__title/element__title.css);
+@import url(./__like-button/element__like-button.css);
+
+.element {
+  margin: 0;
+  border-radius: 10px;
+  width: 282px;
+  overflow: hidden;
+
+  font-family: Inter, Arial, Helvetica, sans-serif;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 29px;
+  color: #000;
+}
