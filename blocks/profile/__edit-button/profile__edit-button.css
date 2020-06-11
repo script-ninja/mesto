@@ -25,3 +25,11 @@
   opacity: 0.6;
   cursor: pointer;
 }
+
+@media screen and (max-width: 720px) {
+  .profile__edit-button {
+    background-size: 8px 8px;
+    width: calc(18px + (24 - 18) * (100vw - 320px) / (720 - 320));
+    height: calc(18px + (24 - 18) * (100vw - 320px) / (720 - 320));
+  }
+}
