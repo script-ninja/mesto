@@ -1,6 +1,6 @@
 .popup__user-career {
   margin: 0 0 48px;
-  padding: 0 0 13px;
+  padding: 13px 0;
   border: none;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }

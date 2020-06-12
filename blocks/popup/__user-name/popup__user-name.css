@@ -1,6 +1,6 @@
 .popup__user-name {
-  margin: 0 0 30px;
-  padding: 0 0 13px;
+  margin: 0 0 17px;
+  padding: 13px 0;
   border: none;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }

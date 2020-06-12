@@ -1,7 +1,6 @@
 .profile__edit-button {
   grid-area: edit;
-  justify-self: start;
-  align-self: end;
+  align-self: center;
 
   width: 24px;
   height: 24px;
