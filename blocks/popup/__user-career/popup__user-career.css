@@ -1,0 +1,10 @@
+.popup__user-career {
+  margin: 0 0 48px;
+  padding: 0 0 13px;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.popup__user-career, .popup__user-career:active, .popup__user-career:focus {
+  outline: none;
+}

@@ -1,6 +1,4 @@
 .header__logo {
-  display: block;
-  margin: 45px 0 40px;
   max-width: 142px;
   opacity: inherit;
 }
@@ -8,7 +6,5 @@
 @media screen and (max-width: 882px) {
   .header__logo {
     max-width: calc(103px + (142 - 103) * (100vw - 320px) / (882 - 320));
-    margin-top: calc(28px + (45 - 28) * (100vw - 320px) / (882 - 320));
-    margin-bottom: calc(31px + (40 - 31) * (100vw - 320px) / (882 - 320));
   }
 }
