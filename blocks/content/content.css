@@ -1,6 +1,8 @@
 @import url(./__profile/content__profile.css);
 
-.content {}
+.content {
+  max-width: 882px;
+}
 
 @media screen and (max-width: 882px) {
   .content {
