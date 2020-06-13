@@ -2,7 +2,6 @@ const popup = document.querySelector('.popup');
 const popupForm = popup.querySelector('.popup__form');
 const popupUserName = popup.querySelector('.popup__user-name');
 const popupUserCareer = popup.querySelector('.popup__user-career');
-const popupSaveButton = popup.querySelector('.popup__save-button');
 const popupCloseButton = popup.querySelector('.popup__close-button');
 
 const profile = document.querySelector('.profile');
@@ -13,7 +12,6 @@ const profileEditButton = profile.querySelector('.profile__edit-button');
 
 const popupToggle = function (event) {
   if (popup.classList.contains('popup_closed')) {
-    // popupUserName.setAttribute('value', profileName.textContent);
     popupUserName.value = profileName.textContent;
     popupUserCareer.value = profileCareer.textContent;
     popup.classList.remove('popup_closed');
