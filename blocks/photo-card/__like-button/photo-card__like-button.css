@@ -1,4 +1,4 @@
-.element__like-button {
+.photo-card__like-button {
   padding: 0;
 
   min-width: 21px;
@@ -6,7 +6,7 @@
   border: none;
 
   background-color: transparent;
-  background-image: url(../../../images/element__like-button.svg);
+  background-image: url(../../../images/photo-card__like-button.svg);
   background-repeat: no-repeat;
   background-size: 21px 19px;
   background-position: center;
@@ -14,11 +14,11 @@
   transition: transform 0.2s ease;
 }
 
-.element__like-button, .element__like-button:active, .element__like-button:focus {
+.photo-card__like-button, .photo-card__like-button:active, .photo-card__like-button:focus {
   outline: none;
 }
 
-.element__like-button:hover {
+.photo-card__like-button:hover {
   transform: scale(1.2);
   cursor: pointer;
 }
