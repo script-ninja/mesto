@@ -1,5 +1,5 @@
-<a href="https://script-ninja.github.io/mesto/index.html" target="_blank"><img src="./images/header__logo_dark.svg" align="left">
-<h1 align="right">:link: Проект 4: Место</h1></a>
+
+<h1 align="right"><a href="https://script-ninja.github.io/mesto/index.html" target="_blank"><img src="./images/header__logo_dark.svg" align="left">Проект 4: Место</a></h1>
 
 ### Обзор
 
