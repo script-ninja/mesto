@@ -3,17 +3,19 @@
   padding: 0 30px;
 
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 295px 1fr;
   grid-template-areas:
     "name edit"
-    "career career";
+    "career .";
   gap: 6px 16px;
 }
 
 @media screen and (max-width: 720px) {
   .profile__info {
+    max-width: 280px;
     margin: 15px 0 36px;
     padding: 0;
+    grid-template-areas: "name edit" "career career";
     grid-template-columns: 1fr min-content;
     column-gap: 12px;
     row-gap: 0;
