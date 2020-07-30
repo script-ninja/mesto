@@ -17,6 +17,7 @@
     </header>
 
     <main class="content">
+
       <section class="profile content__profile">
         <img src="./images/profile__avatar.jpg" alt="Картинка профиля" class="profile__avatar">
         <div class="profile__info">
@@ -27,55 +28,20 @@
         <button class="profile__add-button" type="button"></button>
       </section>
 
-      <section class="photo-cards">
-        <figure class="photo-card">
-          <img class="photo-card__image" src="./images/photo-card-karachaevsk-preview.jpg" alt="Карачаевск">
-          <figcaption class="photo-card__caption">
-            <h2 class="photo-card__title">Карачаевск</h2>
-            <button class="photo-card__like-button" type="button"></button>
-          </figcaption>
-        </figure>
-
-        <figure class="photo-card">
-          <img class="photo-card__image" src="./images/photo-card-elbrus-preview.jpg" alt="Эльбрус">
-          <figcaption class="photo-card__caption">
-            <h2 class="photo-card__title">Гора Эльбрус</h2>
-            <button class="photo-card__like-button" type="button"></button>
-          </figcaption>
-        </figure>
-
-        <figure class="photo-card">
-          <img class="photo-card__image" src="./images/photo-card-dombai-preview.jpg" alt="Домбай">
-          <figcaption class="photo-card__caption">
-            <h2 class="photo-card__title">Домбай</h2>
-            <button class="photo-card__like-button" type="button"></button>
-          </figcaption>
-        </figure>
-
-        <figure class="photo-card">
-          <img class="photo-card__image" src="./images/photo-card-elbrus-preview.jpg" alt="Эльбрус">
-          <figcaption class="photo-card__caption">
-            <h2 class="photo-card__title">Гора Эльбрус</h2>
-            <button class="photo-card__like-button" type="button"></button>
-          </figcaption>
-        </figure>
-
-        <figure class="photo-card">
-          <img class="photo-card__image" src="./images/photo-card-dombai-preview.jpg" alt="Домбай">
-          <figcaption class="photo-card__caption">
-            <h2 class="photo-card__title">Домбай</h2>
-            <button class="photo-card__like-button" type="button"></button>
-          </figcaption>
-        </figure>
-
-        <figure class="photo-card">
-          <img class="photo-card__image" src="./images/photo-card-karachaevsk-preview.jpg" alt="Карачаево-Черкесия">
-          <figcaption class="photo-card__caption">
-            <h2 class="photo-card__title">Карачаево-Черкесия</h2>
-            <button class="photo-card__like-button" type="button"></button>
-          </figcaption>
-        </figure>
+      <section class="gallery">
+        <!-- card template -->
+        <template id="photo-card">
+          <figure class="photo-card">
+            <img class="photo-card__image" src="" alt="">
+            <figcaption class="photo-card__caption">
+              <h2 class="photo-card__title" title=""></h2>
+              <button class="photo-card__like-button" type="button"></button>
+            </figcaption>
+            <button class="photo-card__del-button" type="button"></button>
+          </figure>
+        </template>
       </section>
+
     </main>
 
     <footer class="footer page__footer">
@@ -83,17 +49,35 @@
     </footer>
   </div>
 
-  <!-- POPUP -->
+  <!-- POPUPS -->
   <section class="popup popup_closed">
-    <form class="popup__form">
-      <h2 class="popup__title">Редактировать профиль</h2>
-      <input class="popup__user-name" type="text" name="username" placeholder="Ваше имя">
-      <input class="popup__user-career" type="text" name="usercareer" placeholder="Ваше хобби">
-      <input class="popup__save-button" type="submit" value="Сохранить">
-      <button class="popup__close-button" type="button"></button>
+    <form id="form-profile" class="form">
+      <h2 class="form__title">Редактировать профиль</h2>
+      <input class="form__text form__text_margin_s" type="text" name="user-name" placeholder="Ваше имя">
+      <input class="form__text form__text_margin_l" type="text" name="user-hobby" placeholder="Ваше хобби">
+      <input class="form__button-submit" type="submit" value="Сохранить">
+      <button class="popup__button-close" type="button"></button>
     </form>
+
+    <form id="form-place" class="form">
+      <h2 class="form__title">Новое место</h2>
+      <input class="form__text form__text_margin_s" type="text" name="place-name" placeholder="Название">
+      <input class="form__text form__text_margin_l" type="text" name="place-link" placeholder="Ссылка на картинку">
+      <input class="form__button-submit" type="submit" value="Создать">
+      <button class="popup__button-close" type="button"></button>
+    </form>
+
+    <!-- FULL SIZE PHOTO TEMPLATE -->
+    <template id="photo">
+      <figure class="photo">
+        <img class="photo__image" src="" alt="">
+        <figcaption class="photo__title"></figcaption>
+        <button class="popup__button-close popup__button-close_type_photo" type="button"></button>
+      </figure>
+    </template>
   </section>
 
+  <script src="./scripts/data.js"></script>
   <script src="./scripts/index.js"></script>
 </body>
 </html>

@@ -1,6 +1,3 @@
-@import url(./__header/page__header.css);
-@import url(./__footer/page__footer.css);
-
 .page {
   background-color: #000;
 }

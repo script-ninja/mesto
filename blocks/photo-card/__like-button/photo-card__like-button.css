@@ -11,7 +11,7 @@
   background-size: 21px 19px;
   background-position: center;
 
-  transition: transform 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .photo-card__like-button, .photo-card__like-button:active, .photo-card__like-button:focus {

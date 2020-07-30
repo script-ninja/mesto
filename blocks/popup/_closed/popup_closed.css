@@ -1,3 +1,4 @@
 .popup_closed {
-  display: none;
+  pointer-events: none;
+  visibility: hidden;
 }

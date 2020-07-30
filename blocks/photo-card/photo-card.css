@@ -1,9 +1,6 @@
-@import url(./__image/photo-card__image.css);
-@import url(./__caption/photo-card__caption.css);
-@import url(./__title/photo-card__title.css);
-@import url(./__like-button/photo-card__like-button.css);
-
 .photo-card {
+  position: relative;
+
   margin: 0;
   border-radius: 10px;
   width: 282px;

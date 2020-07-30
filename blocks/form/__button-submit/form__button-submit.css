@@ -1,0 +1,30 @@
+.form__button-submit {
+  padding: 14px;
+  border: none;
+  border-radius: 2px;
+
+  background-color: #000;
+
+  font-size: 18px;
+  line-height: 22px;
+  color: #fff;
+
+  transition: background-color 0.2s ease;
+}
+
+.form__button-submit, .form__button-submit:active, .form__button-submit:focus {
+  outline: none;
+}
+
+.form__button-submit:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+@media screen and (max-width: 510px) {
+  .form__button-submit {
+    padding: 12px;
+    font-size: calc(14px + (18 - 14) * (100vw - 320px) / (510 - 320));
+    line-height: calc(17px + (22 - 17) * (100vw - 320px) / (510 - 320));
+  }
+}
