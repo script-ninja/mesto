@@ -51,17 +51,14 @@ const togglePopup = function (event) {
         formProfileUserHobby.value = profileCareer.textContent;
         formProfile.classList.add('form_active');
         break;
-
       case profileButtonAdd:
         formPlace.classList.add('form_active');
         break;
-
       default:
         const photo = photoTemplate.cloneNode(true);
         photo.querySelector('.photo__title').textContent = event.target.alt;
         photo.querySelector('.photo__image').src = event.target.src;
         photo.querySelector('.photo__image').alt = event.target.alt;
-        photo.querySelector('.popup__button-close').addEventListener('click', togglePopup);
         popup.append(photo);
         popup.classList.add('popup_type_photo');
         break;
@@ -70,19 +67,21 @@ const togglePopup = function (event) {
     popup.classList.add('popup_opened');
   }
   else {
-    setTimeout(() => {
-      switch(popup.lastElementChild) {
-        case popup.querySelector('.photo'):
-          popup.querySelector('.photo').remove();
-          popup.classList.remove('popup_type_photo');
-          break;
-        default:
-          popup.querySelector('.form_active').classList.remove('form_active');
-          break;
-      }
-    }, 300); // задержка в соответствии с длительностью анимации
-    popup.classList.remove('popup_opened');
-    popup.classList.add('popup_closed');
+    if (event.target.classList.contains('popup__button-close') || event.target === event.currentTarget) {
+      setTimeout(() => {
+        switch(popup.lastElementChild) {
+          case popup.querySelector('.photo'):
+            popup.querySelector('.photo').remove();
+            popup.classList.remove('popup_type_photo');
+            break;
+          default:
+            popup.querySelector('.form_active').classList.remove('form_active');
+            break;
+        }
+      }, 300); // задержка в соответствии с длительностью анимации
+      popup.classList.remove('popup_opened');
+      popup.classList.add('popup_closed');
+    }
   }
 }
 
@@ -111,4 +110,4 @@ profileButtonEdit.addEventListener('click', togglePopup);
 profileButtonAdd.addEventListener('click', togglePopup);
 formProfile.addEventListener('submit', submitForm);
 formPlace.addEventListener('submit', submitForm);
-popup.querySelectorAll('.popup__button-close').forEach(buttonClose => { buttonClose.addEventListener('click', togglePopup); });
+popup.addEventListener('click', togglePopup);
