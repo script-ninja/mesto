@@ -44,7 +44,7 @@ const addCard = function (card, setCardPlace = gallery.prepend) {
 
 
 const togglePopup = function (event) {
-  if (popup.classList.contains('popup_closed')) {
+  if (!popup.classList.contains('popup_visible')) {
     switch (event.target) {
       case profileButtonEdit:
         formProfileUserName.value = profileName.textContent;
@@ -63,8 +63,7 @@ const togglePopup = function (event) {
         popup.classList.add('popup_type_photo');
         break;
     }
-    popup.classList.remove('popup_closed');
-    popup.classList.add('popup_opened');
+    popup.classList.add('popup_visible');
   }
   else {
     if (event.target.classList.contains('popup__button-close') || event.target === event.currentTarget) {
@@ -79,8 +78,7 @@ const togglePopup = function (event) {
             break;
         }
       }, 300); // задержка в соответствии с длительностью анимации
-      popup.classList.remove('popup_opened');
-      popup.classList.add('popup_closed');
+      popup.classList.remove('popup_visible');
     }
   }
 }
