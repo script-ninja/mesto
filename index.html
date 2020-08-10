@@ -32,12 +32,12 @@
         <!-- card template -->
         <template id="photo-card">
           <figure class="photo-card">
-            <img class="photo-card__image" src="" alt="">
+            <img class="photo-card__image" src="#" alt="#">
             <figcaption class="photo-card__caption">
-              <h2 class="photo-card__title" title=""></h2>
+              <h2 class="photo-card__title" title="#"></h2>
               <button class="photo-card__like-button" type="button"></button>
+              <button class="photo-card__del-button" type="button"></button>
             </figcaption>
-            <button class="photo-card__del-button" type="button"></button>
           </figure>
         </template>
       </section>
@@ -50,7 +50,7 @@
   </div>
 
   <!-- POPUPS -->
-  <section class="popup">
+  <section class="popup" data-type="profile">
     <form id="form-profile" class="form">
       <h2 class="form__title">Редактировать профиль</h2>
       <input class="form__text" type="text" name="user-name" placeholder="Ваше имя">
@@ -58,23 +58,26 @@
       <input class="form__button-submit" type="submit" value="Сохранить">
       <button class="popup__button-close" type="button"></button>
     </form>
+  </section>
 
+  <section class="popup" data-type="place">
     <form id="form-place" class="form">
       <h2 class="form__title">Новое место</h2>
-      <input class="form__text form__text_margin_s" type="text" name="place-name" placeholder="Название">
-      <input class="form__text form__text_margin_l" type="text" name="place-link" placeholder="Ссылка на картинку">
+      <input class="form__text" type="text" name="place-name" placeholder="Название">
+      <input class="form__text" type="text" name="place-link" placeholder="Ссылка на картинку">
       <input class="form__button-submit" type="submit" value="Создать">
       <button class="popup__button-close" type="button"></button>
     </form>
+  </section>
 
-    <!-- FULL SIZE PHOTO TEMPLATE -->
-    <template id="photo">
-      <figure class="photo">
-        <img class="photo__image" src="" alt="">
-        <figcaption class="photo__title"></figcaption>
+  <section class="popup popup_type_photo" data-type="photo">
+    <figure class="photo">
+      <img class="photo__image" src="#" alt="#">
+      <figcaption class="photo__caption">
+        <h2 class="photo__title"></h2>
         <button class="popup__button-close popup__button-close_type_photo" type="button"></button>
-      </figure>
-    </template>
+      </figcaption>
+    </figure>
   </section>
 
   <script src="./scripts/data.js"></script>

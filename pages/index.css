@@ -60,3 +60,5 @@
 /* popup photo */
 @import url(../blocks/photo/photo.css);
 @import url(../blocks/photo/__image/photo__image.css);
+@import url(../blocks/photo/__caption/photo__caption.css);
+@import url(../blocks/photo/__title/photo__title.css);
