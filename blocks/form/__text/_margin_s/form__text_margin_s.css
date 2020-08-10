@@ -1,9 +1,0 @@
-.form__text_margin_s {
-  margin: 0 0 15px;
-}
-
-@media screen and (max-width: 510px) {
-  .form__text_margin_s {
-    margin-bottom: 5px;
-  }
-}

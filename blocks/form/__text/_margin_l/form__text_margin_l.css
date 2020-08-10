@@ -1,9 +1,0 @@
-.form__text_margin_l {
-  margin: 0 0 48px;
-}
-
-@media screen and (max-width: 510px) {
-  .form__text_margin_l {
-    margin-bottom: 36px;
-  }
-}
