@@ -1,3 +1,4 @@
+// Объявления переменных -----------------------------------------------------
 const root = document.querySelector('.root');
 
 const profile = root.querySelector('.profile');
@@ -24,10 +25,26 @@ const photoImage = popupPhoto.querySelector('.photo__image');
 const photoTitle = popupPhoto.querySelector('.photo__title');
 
 
+// Объявления функций --------------------------------------------------------
+const createPhotoCard = function (card) {
+  const newCard = cardTemplate.cloneNode(true);
+  newCard.querySelector('.photo-card__title').textContent = card.name;
+  newCard.querySelector('.photo-card__title').title = card.name;
+  newCard.querySelector('.photo-card__image').alt = card.name;
+  newCard.querySelector('.photo-card__image').src = card.link;
+  newCard.querySelector('.photo-card__image').addEventListener('click', openPhoto);
+  newCard.querySelector('.photo-card__like-button').addEventListener('click', (event) => {
+    event.target.classList.toggle('photo-card__like-button_liked');
+  });
+  newCard.querySelector('.photo-card__del-button').addEventListener('click', (event) => {
+    event.target.closest('.photo-card').remove();
+  });
+  return newCard;
+}
+
 const togglePopup = function (popup) {
   popup.classList.toggle('popup_visible');
 }
-
 
 const openProfileForm = function (event) {
   formProfileUserName.value = profileName.textContent;
@@ -42,23 +59,20 @@ const saveProfile = function (event) {
   togglePopup(popupProfile);
 }
 
-
 const openPlaceForm = function (event) {
   togglePopup(popupPlace);
 }
 
 const savePlace = function (event) {
   event.preventDefault();
-  addPhotoCard({
+  gallery.prepend(createPhotoCard({
     name: formPlaceName.value,
-    link: formPlaceLink.value,
-    like: false
-  });
+    link: formPlaceLink.value
+  }));
   formPlaceName.value = '';
   formPlaceLink.value = '';
   togglePopup(popupPlace);
 }
-
 
 const openPhoto = function (event) {
   photoImage.src = event.target.src;
@@ -68,38 +82,8 @@ const openPhoto = function (event) {
 }
 
 
-const createPhotoCard = function (card) {
-  const newCard = cardTemplate.cloneNode(true);
-  newCard.querySelector('.photo-card__title').textContent = card.name;
-  newCard.querySelector('.photo-card__title').title = card.name;
-  newCard.querySelector('.photo-card__image').alt = card.name;
-  newCard.querySelector('.photo-card__image').src = card.link;
-  newCard.querySelector('.photo-card__image').addEventListener('click', openPhoto);
-  // Здравствуйте, Иван! В этом месте я не понял насчёт лайков.
-  // Сейчас базу данных имитирует массив. Я в этот массив добавил новое поле хранящее лайк.
-  // Таким образом, создается некое подобие хранения данных и их загрузки с сервера.
-  // Или этот массив для чего-то другого предназначен?
-  //
-  // Ну, а в целом, спасибо за замечания! Даже мне самому стало легче читать собственный код. xD
-  //
-  // if (card.like) {
-  //   newCard.querySelector('.photo-card__like-button').classList.add('photo-card__like-button_liked');
-  // }
-  newCard.querySelector('.photo-card__like-button').addEventListener('click', (event) => {
-    event.target.classList.toggle('photo-card__like-button_liked');
-  });
-  newCard.querySelector('.photo-card__del-button').addEventListener('click', (event) => {
-    event.target.closest('.photo-card').remove();
-  });
-  return newCard;
-}
-
-const addPhotoCard = function (card, prepend = true) {
-  (prepend) ? gallery.prepend(createPhotoCard(card)) : gallery.append(createPhotoCard(card));
-}
-
-
-initialCards.forEach(card => { addPhotoCard(card, false); });
+// Точка входа ---------------------------------------------------------------
+initialCards.forEach((card) => { gallery.append(createPhotoCard(card)); });
 profileButtonEdit.addEventListener('click', openProfileForm);
 profileButtonAdd.addEventListener('click', openPlaceForm);
 formProfile.addEventListener('submit', saveProfile);
