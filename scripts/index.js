@@ -69,8 +69,7 @@ const savePlace = function (event) {
     name: formPlaceName.value,
     link: formPlaceLink.value
   }));
-  formPlaceName.value = '';
-  formPlaceLink.value = '';
+  formPlace.reset();
   togglePopup(popupPlace);
 }
 
