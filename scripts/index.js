@@ -8,7 +8,8 @@ const profileButtonEdit = profile.querySelector('.profile__edit-button');
 const profileButtonAdd = profile.querySelector('.profile__add-button');
 
 const gallery = root.querySelector('.gallery');
-const cardTemplate = gallery.querySelector('#photo-card').content;
+const galleryMessage = gallery.querySelector('.gallery__message');
+const cardElement = gallery.querySelector('#photo-card').content;
 
 const popupProfile = document.querySelector('.popup[data-type="profile"]');
 const formProfile = popupProfile.querySelector('#form-profile');
@@ -26,8 +27,27 @@ const photoTitle = popupPhoto.querySelector('.photo__title');
 
 
 // Объявления функций --------------------------------------------------------
+const renderCard = function (cardElement, doCardAction, removal = false) {
+  if (removal) {
+    doCardAction.call(cardElement);
+  }
+  else {
+    doCardAction.call(gallery, cardElement);
+  }
+  renderGalleryMessage();
+}
+
+const renderGalleryMessage = function () {
+  if (gallery.querySelector('.photo-card')) {
+    galleryMessage.classList.remove('gallery__message_visible');
+  }
+  else {
+    galleryMessage.classList.add('gallery__message_visible');
+  }
+}
+
 const createPhotoCard = function (card) {
-  const newCard = cardTemplate.cloneNode(true);
+  const newCard = cardElement.cloneNode(true);
   newCard.querySelector('.photo-card__title').textContent = card.name;
   newCard.querySelector('.photo-card__title').title = card.name;
   newCard.querySelector('.photo-card__image').alt = card.name;
@@ -37,7 +57,7 @@ const createPhotoCard = function (card) {
     event.target.classList.toggle('photo-card__like-button_liked');
   });
   newCard.querySelector('.photo-card__del-button').addEventListener('click', (event) => {
-    event.target.closest('.photo-card').remove();
+    renderCard(event.target.closest('.photo-card'), event.target.closest('.photo-card').remove, true);
   });
   return newCard;
 }
@@ -65,10 +85,13 @@ const openPlaceForm = function (event) {
 
 const savePlace = function (event) {
   event.preventDefault();
-  gallery.prepend(createPhotoCard({
-    name: formPlaceName.value,
-    link: formPlaceLink.value
-  }));
+  renderCard(
+    createPhotoCard({
+      name: formPlaceName.value,
+      link: formPlaceLink.value
+    }),
+    gallery.prepend
+  );
   formPlace.reset();
   togglePopup(popupPlace);
 }
@@ -82,7 +105,7 @@ const openPhoto = function (event) {
 
 
 // Точка входа ---------------------------------------------------------------
-initialCards.forEach((card) => { gallery.append(createPhotoCard(card)); });
+initialCards.forEach((card) => { renderCard(createPhotoCard(card), gallery.append); });
 profileButtonEdit.addEventListener('click', openProfileForm);
 profileButtonAdd.addEventListener('click', openPlaceForm);
 formProfile.addEventListener('submit', saveProfile);

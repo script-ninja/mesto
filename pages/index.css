@@ -29,6 +29,8 @@
 
 /* gallery */
 @import url(../blocks/gallery/gallery.css);
+@import url(../blocks/gallery/__message/gallery__message.css);
+@import url(../blocks/gallery/__message/_visible/gallery__message_visible.css);
 
 /* gallery photo-card */
 @import url(../blocks/photo-card/photo-card.css);
