@@ -27,12 +27,12 @@ const photoTitle = popupPhoto.querySelector('.photo__title');
 
 
 // Объявления функций --------------------------------------------------------
-const renderCard = function (cardElement, doCardAction, removal = false) {
-  if (removal) {
-    doCardAction.call(cardElement);
+const renderCard = function (cardElement, render) {
+  if (render.name === 'remove') {
+    render.call(cardElement);
   }
   else {
-    doCardAction.call(gallery, cardElement);
+    render.call(gallery, cardElement);
   }
   renderGalleryMessage();
 }
@@ -57,7 +57,7 @@ const createPhotoCard = function (card) {
     event.target.classList.toggle('photo-card__like-button_liked');
   });
   newCard.querySelector('.photo-card__del-button').addEventListener('click', (event) => {
-    renderCard(event.target.closest('.photo-card'), event.target.closest('.photo-card').remove, true);
+    renderCard(event.target.closest('.photo-card'), event.target.closest('.photo-card').remove);
   });
   return newCard;
 }
@@ -85,13 +85,11 @@ const openPlaceForm = function (event) {
 
 const savePlace = function (event) {
   event.preventDefault();
-  renderCard(
-    createPhotoCard({
-      name: formPlaceName.value,
-      link: formPlaceLink.value
-    }),
-    gallery.prepend
-  );
+  let newCard = {
+    name: formPlaceName.value,
+    link: formPlaceLink.value
+  }
+  renderCard(createPhotoCard(newCard), gallery.prepend);
   formPlace.reset();
   togglePopup(popupPlace);
 }
