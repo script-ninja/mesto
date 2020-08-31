@@ -13,8 +13,8 @@ const cardElement = gallery.querySelector('#photo-card').content;
 
 const popupProfile = document.querySelector('.popup[data-type="profile"]');
 const formProfile = popupProfile.querySelector('#form-profile');
-const formProfileUserName = formProfile.querySelector('input[name="user-name"]');
-const formProfileUserHobby = formProfile.querySelector('input[name="user-hobby"]');
+const formProfileName = formProfile.querySelector('input[name="user-name"]');
+const formProfileHobby = formProfile.querySelector('input[name="user-hobby"]');
 
 const popupPlace = document.querySelector('.popup[data-type="place"]');
 const formPlace = popupPlace.querySelector('#form-place');
@@ -27,17 +27,9 @@ const photoTitle = popupPhoto.querySelector('.photo__title');
 
 
 // Объявления функций --------------------------------------------------------
-const renderCard = function (cardElement, render) {
-  if (render.name === 'remove') {
-    render.call(cardElement);
-  }
-  else {
-    render.call(gallery, cardElement);
-  }
-  renderGalleryMessage();
-}
+const renderGallery = function (cardElement, render) {
+  (render.name === 'remove') ? render.call(cardElement) : render.call(gallery, cardElement);
 
-const renderGalleryMessage = function () {
   if (gallery.querySelector('.photo-card')) {
     galleryMessage.classList.remove('gallery__message_visible');
   }
@@ -57,7 +49,8 @@ const createPhotoCard = function (card) {
     event.target.classList.toggle('photo-card__like-button_liked');
   });
   newCard.querySelector('.photo-card__del-button').addEventListener('click', (event) => {
-    renderCard(event.target.closest('.photo-card'), event.target.closest('.photo-card').remove);
+    const card = event.target.closest('.photo-card');
+    renderGallery(card, card.remove);
   });
   return newCard;
 }
@@ -67,15 +60,15 @@ const togglePopup = function (popup) {
 }
 
 const openProfileForm = function (event) {
-  formProfileUserName.value = profileName.textContent;
-  formProfileUserHobby.value = profileCareer.textContent;
+  formProfileName.value = profileName.textContent;
+  formProfileHobby.value = profileCareer.textContent;
   togglePopup(popupProfile);
 }
 
 const saveProfile = function (event) {
   event.preventDefault();
-  profileName.textContent = formProfileUserName.value;
-  profileCareer.textContent = formProfileUserHobby.value;
+  profileName.textContent = formProfileName.value;
+  profileCareer.textContent = formProfileHobby.value;
   togglePopup(popupProfile);
 }
 
@@ -89,7 +82,7 @@ const savePlace = function (event) {
     name: formPlaceName.value,
     link: formPlaceLink.value
   }
-  renderCard(createPhotoCard(newCard), gallery.prepend);
+  renderGallery(createPhotoCard(newCard), gallery.prepend);
   formPlace.reset();
   togglePopup(popupPlace);
 }
@@ -101,20 +94,24 @@ const openPhoto = function (event) {
   togglePopup(popupPhoto);
 }
 
+const closePopup = function (event) {
+  if (event.target === event.currentTarget) {
+    togglePopup(event.target.closest('.popup'));
+  }
+}
+
 
 // Точка входа ---------------------------------------------------------------
-initialCards.forEach((card) => { renderCard(createPhotoCard(card), gallery.append); });
+initialCards.forEach((card) => {
+  renderGallery(createPhotoCard(card), gallery.append);
+});
 profileButtonEdit.addEventListener('click', openProfileForm);
 profileButtonAdd.addEventListener('click', openPlaceForm);
 formProfile.addEventListener('submit', saveProfile);
 formPlace.addEventListener('submit', savePlace);
 document.querySelectorAll('.popup').forEach((popup) => {
-  popup.addEventListener('click', (event) => {
-    if (event.target === event.currentTarget) togglePopup(popup);
-  });
+  popup.addEventListener('click', closePopup);
 });
 document.querySelectorAll('.popup__button-close').forEach((closeButton) => {
-  closeButton.addEventListener('click', (event) => {
-    togglePopup(event.target.closest('.popup'));
-  });
+  closeButton.addEventListener('click', closePopup);
 });
