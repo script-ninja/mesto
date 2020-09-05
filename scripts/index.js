@@ -9,7 +9,7 @@ const profileButtonAdd = profile.querySelector('.profile__add-button');
 
 const gallery = root.querySelector('.gallery');
 const galleryMessage = gallery.querySelector('.gallery__message');
-const cardElement = gallery.querySelector('#photo-card').content;
+const cardTemplate = gallery.querySelector('#photo-card').content;
 
 const popupProfile = document.querySelector('.popup[data-type="profile"]');
 const formProfile = popupProfile.querySelector('#form-profile');
@@ -39,7 +39,7 @@ const renderGallery = function (cardElement, render) {
 }
 
 const createPhotoCard = function (card) {
-  const newCard = cardElement.cloneNode(true);
+  const newCard = cardTemplate.cloneNode(true);
   newCard.querySelector('.photo-card__title').textContent = card.name;
   newCard.querySelector('.photo-card__title').title = card.name;
   newCard.querySelector('.photo-card__image').alt = card.name;
@@ -95,7 +95,7 @@ const openPhoto = function (event) {
 }
 
 const closePopup = function (event) {
-  if (event.target === event.currentTarget) {
+  if (event.target.classList.contains('popup__button-close') || event.target === event.currentTarget) {
     togglePopup(event.target.closest('.popup'));
   }
 }
@@ -111,7 +111,4 @@ formProfile.addEventListener('submit', saveProfile);
 formPlace.addEventListener('submit', savePlace);
 document.querySelectorAll('.popup').forEach((popup) => {
   popup.addEventListener('click', closePopup);
-});
-document.querySelectorAll('.popup__button-close').forEach((closeButton) => {
-  closeButton.addEventListener('click', closePopup);
 });
