@@ -12,14 +12,14 @@ const galleryMessage = gallery.querySelector('.gallery__message');
 const cardTemplate = gallery.querySelector('#photo-card').content;
 
 const popupProfile = document.querySelector('.popup[data-type="profile"]');
-const formProfile = popupProfile.querySelector('#form-profile');
-const formProfileName = formProfile.querySelector('input[name="user-name"]');
-const formProfileHobby = formProfile.querySelector('input[name="user-hobby"]');
+const formProfile = document.forms.profile;
+const formProfileName = formProfile.elements['user-name'];
+const formProfileHobby = formProfile.elements['user-hobby'];
 
 const popupPlace = document.querySelector('.popup[data-type="place"]');
-const formPlace = popupPlace.querySelector('#form-place');
-const formPlaceName = formPlace.querySelector('input[name="place-name"]');
-const formPlaceLink = formPlace.querySelector('input[name="place-link"]');
+const formPlace = document.forms.place;
+const formPlaceName = formPlace.elements['place-name'];
+const formPlaceLink = formPlace.elements['place-link'];
 
 const popupPhoto = document.querySelector('.popup[data-type="photo"]');
 const photoImage = popupPhoto.querySelector('.photo__image');
