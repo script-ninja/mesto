@@ -57,13 +57,15 @@ const createPhotoCard = function (card) {
 
 const togglePopup = function (popup) {
   popup.classList.toggle('popup_visible');
-  clearForm(popup.querySelector('.form'));
+  if (!popup.classList.contains('popup_visible')) {
+    clearForm(popup.querySelector('.form'));
+  }
 }
 
 const openProfileForm = function (event) {
-  togglePopup(popupProfile);
   formProfileName.value = profileName.textContent;
   formProfileHobby.value = profileCareer.textContent;
+  togglePopup(popupProfile);
 }
 
 const saveProfile = function (event) {
@@ -84,7 +86,6 @@ const savePlace = function (event) {
     link: formPlaceLink.value
   }
   renderGallery(createPhotoCard(newCard), gallery.prepend);
-  formPlace.reset();
   togglePopup(popupPlace);
 }
 
