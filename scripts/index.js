@@ -132,11 +132,11 @@ const renderInitialCards = function () {
 // Точка входа ---------------------------------------------------------------
 window.onload = function() {
   renderInitialCards();
+  profileButtonEdit.addEventListener('click', openProfileForm);
+  profileButtonAdd.addEventListener('click', openPlaceForm);
+  formProfile.addEventListener('submit', saveProfile);
+  formPlace.addEventListener('submit', savePlace);
+  document.querySelectorAll('.popup').forEach((popup) => {
+    popup.addEventListener('click', closePopup);
+  });
 }
-profileButtonEdit.addEventListener('click', openProfileForm);
-profileButtonAdd.addEventListener('click', openPlaceForm);
-formProfile.addEventListener('submit', saveProfile);
-formPlace.addEventListener('submit', savePlace);
-document.querySelectorAll('.popup').forEach((popup) => {
-  popup.addEventListener('click', closePopup);
-});
