@@ -56,8 +56,12 @@
 @import url(../blocks/form/form.css);
 @import url(../blocks/form/_active/form_active.css);
 @import url(../blocks/form/__title/form__title.css);
+@import url(../blocks/form/__field/form__field.css);
 @import url(../blocks/form/__text/form__text.css);
+@import url(../blocks/form/__text/_invalid/form__text_invalid.css);
+@import url(../blocks/form/__text-error/form__text-error.css);
 @import url(../blocks/form/__button-submit/form__button-submit.css);
+@import url(../blocks/form/__button-submit/_disabled/form__button-submit_disabled.css);
 
 /* popup photo */
 @import url(../blocks/photo/photo.css);

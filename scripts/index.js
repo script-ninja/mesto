@@ -57,12 +57,13 @@ const createPhotoCard = function (card) {
 
 const togglePopup = function (popup) {
   popup.classList.toggle('popup_visible');
+  clearForm(popup.querySelector('.form'));
 }
 
 const openProfileForm = function (event) {
+  togglePopup(popupProfile);
   formProfileName.value = profileName.textContent;
   formProfileHobby.value = profileCareer.textContent;
-  togglePopup(popupProfile);
 }
 
 const saveProfile = function (event) {
@@ -100,6 +101,13 @@ const closePopup = function (event) {
   }
 }
 
+const keyEscHandler = function (event) {
+  const openedPopup = document.querySelector('.popup_visible');
+  if (openedPopup && event.key === 'Escape') {
+    togglePopup(openedPopup);
+  }
+}
+
 
 // Точка входа ---------------------------------------------------------------
 initialCards.forEach((card) => {
@@ -112,3 +120,4 @@ formPlace.addEventListener('submit', savePlace);
 document.querySelectorAll('.popup').forEach((popup) => {
   popup.addEventListener('click', closePopup);
 });
+document.addEventListener('keydown', keyEscHandler);
