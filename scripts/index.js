@@ -130,7 +130,9 @@ const renderInitialCards = function () {
 
 
 // Точка входа ---------------------------------------------------------------
-renderInitialCards();
+window.onload = function() {
+  renderInitialCards();
+}
 profileButtonEdit.addEventListener('click', openProfileForm);
 profileButtonAdd.addEventListener('click', openPlaceForm);
 formProfile.addEventListener('submit', saveProfile);
