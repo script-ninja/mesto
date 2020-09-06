@@ -3,7 +3,6 @@ const validationSettings = {
   formSelector: '.form',
   inputSelector: '.form__text',
   invalidInputClass: 'form__text_invalid',
-  // errorMessageClass: 'form__text-error',
   submitSelector: '.form__button-submit',
   submitDisabledClass: 'form__button-submit_disabled'
 };

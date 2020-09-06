@@ -27,9 +27,7 @@ const photoTitle = popupPhoto.querySelector('.photo__title');
 
 
 // Объявления функций --------------------------------------------------------
-const renderGallery = function (cardElement, render) {
-  (render.name === 'remove') ? render.call(cardElement) : render.call(gallery, cardElement);
-
+const toggleGalleryMessage = function () {
   if (gallery.querySelector('.photo-card')) {
     galleryMessage.classList.remove('gallery__message_visible');
   }
@@ -44,21 +42,38 @@ const createPhotoCard = function (card) {
   newCard.querySelector('.photo-card__title').title = card.name;
   newCard.querySelector('.photo-card__image').alt = card.name;
   newCard.querySelector('.photo-card__image').src = card.link;
-  newCard.querySelector('.photo-card__image').addEventListener('click', openPhoto);
-  newCard.querySelector('.photo-card__like-button').addEventListener('click', (event) => {
-    event.target.classList.toggle('photo-card__like-button_liked');
-  });
-  newCard.querySelector('.photo-card__del-button').addEventListener('click', (event) => {
-    const card = event.target.closest('.photo-card');
-    renderGallery(card, card.remove);
-  });
+  newCard
+    .querySelector('.photo-card__image')
+    .addEventListener('click', openPhoto);
+  newCard
+    .querySelector('.photo-card__like-button')
+    .addEventListener('click', (event) => {
+      event.target.classList.toggle('photo-card__like-button_liked');
+    });
+  newCard
+    .querySelector('.photo-card__del-button')
+    .addEventListener('click', (event) => {
+      const card = event.target.closest('.photo-card').remove();
+      toggleGalleryMessage();
+    });
   return newCard;
+}
+
+const keyEscHandler = function (event) {
+  const openedPopup = document.querySelector('.popup_visible');
+  if (openedPopup && event.key === 'Escape') {
+    togglePopup(openedPopup);
+  }
 }
 
 const togglePopup = function (popup) {
   popup.classList.toggle('popup_visible');
   if (!popup.classList.contains('popup_visible')) {
     clearForm(popup.querySelector('.form'));
+    document.removeEventListener('keydown', keyEscHandler);
+  }
+  else {
+    document.addEventListener('keydown', keyEscHandler);
   }
 }
 
@@ -81,11 +96,12 @@ const openPlaceForm = function (event) {
 
 const savePlace = function (event) {
   event.preventDefault();
-  let newCard = {
+  const newCard = {
     name: formPlaceName.value,
     link: formPlaceLink.value
   }
-  renderGallery(createPhotoCard(newCard), gallery.prepend);
+  gallery.prepend(createPhotoCard(newCard));
+  toggleGalleryMessage();
   togglePopup(popupPlace);
 }
 
@@ -97,23 +113,24 @@ const openPhoto = function (event) {
 }
 
 const closePopup = function (event) {
-  if (event.target.classList.contains('popup__button-close') || event.target === event.currentTarget) {
+  if (
+    event.target.classList.contains('popup__button-close') ||
+    event.target === event.currentTarget
+  ) {
     togglePopup(event.target.closest('.popup'));
   }
 }
 
-const keyEscHandler = function (event) {
-  const openedPopup = document.querySelector('.popup_visible');
-  if (openedPopup && event.key === 'Escape') {
-    togglePopup(openedPopup);
-  }
+const renderInitialCards = function () {
+  initialCards.forEach((card) => {
+    gallery.append(createPhotoCard(card));
+  });
+  toggleGalleryMessage();
 }
 
 
 // Точка входа ---------------------------------------------------------------
-initialCards.forEach((card) => {
-  renderGallery(createPhotoCard(card), gallery.append);
-});
+renderInitialCards();
 profileButtonEdit.addEventListener('click', openProfileForm);
 profileButtonAdd.addEventListener('click', openPlaceForm);
 formProfile.addEventListener('submit', saveProfile);
@@ -121,4 +138,3 @@ formPlace.addEventListener('submit', savePlace);
 document.querySelectorAll('.popup').forEach((popup) => {
   popup.addEventListener('click', closePopup);
 });
-document.addEventListener('keydown', keyEscHandler);
