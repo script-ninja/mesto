@@ -1,3 +1,5 @@
+import initialCards from './initialCards.js';
+
 // Объявления переменных -----------------------------------------------------
 const root = document.querySelector('.root');
 
