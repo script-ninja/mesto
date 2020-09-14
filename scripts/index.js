@@ -1,4 +1,8 @@
 import initialCards from './initialCards.js';
+import Card from './Card.js';
+
+export { togglePopup, toggleGalleryMessage };
+
 
 // Объявления переменных -----------------------------------------------------
 const root = document.querySelector('.root');
@@ -11,7 +15,6 @@ const profileButtonAdd = profile.querySelector('.profile__add-button');
 
 const gallery = root.querySelector('.gallery');
 const galleryMessage = gallery.querySelector('.gallery__message');
-const cardTemplate = gallery.querySelector('#photo-card').content;
 
 const popupProfile = document.querySelector('.popup[data-type="profile"]');
 const formProfile = document.forms.profile;
@@ -23,10 +26,6 @@ const formPlace = document.forms.place;
 const formPlaceName = formPlace.elements['place-name'];
 const formPlaceLink = formPlace.elements['place-link'];
 
-const popupPhoto = document.querySelector('.popup[data-type="photo"]');
-const photoImage = popupPhoto.querySelector('.photo__image');
-const photoTitle = popupPhoto.querySelector('.photo__title');
-
 
 // Объявления функций --------------------------------------------------------
 const toggleGalleryMessage = function () {
@@ -36,29 +35,6 @@ const toggleGalleryMessage = function () {
   else {
     galleryMessage.classList.add('gallery__message_visible');
   }
-}
-
-const createPhotoCard = function (card) {
-  const newCard = cardTemplate.cloneNode(true);
-  newCard.querySelector('.photo-card__title').textContent = card.name;
-  newCard.querySelector('.photo-card__title').title = card.name;
-  newCard.querySelector('.photo-card__image').alt = card.name;
-  newCard.querySelector('.photo-card__image').src = card.link;
-  newCard
-    .querySelector('.photo-card__image')
-    .addEventListener('click', openPhoto);
-  newCard
-    .querySelector('.photo-card__like-button')
-    .addEventListener('click', (event) => {
-      event.target.classList.toggle('photo-card__like-button_liked');
-    });
-  newCard
-    .querySelector('.photo-card__del-button')
-    .addEventListener('click', (event) => {
-      const card = event.target.closest('.photo-card').remove();
-      toggleGalleryMessage();
-    });
-  return newCard;
 }
 
 const keyEscHandler = function (event) {
@@ -98,20 +74,14 @@ const openPlaceForm = function (event) {
 
 const savePlace = function (event) {
   event.preventDefault();
-  const newCard = {
+  const cardData = {
     name: formPlaceName.value,
     link: formPlaceLink.value
-  }
-  gallery.prepend(createPhotoCard(newCard));
+  };
+  const newCard = new Card(cardData, '.photo-card');
+  gallery.prepend(newCard.element);
   toggleGalleryMessage();
   togglePopup(popupPlace);
-}
-
-const openPhoto = function (event) {
-  photoImage.src = event.target.src;
-  photoImage.alt = event.target.alt;
-  photoTitle.textContent = event.target.alt;
-  togglePopup(popupPhoto);
 }
 
 const closePopup = function (event) {
@@ -125,7 +95,8 @@ const closePopup = function (event) {
 
 const renderInitialCards = function () {
   initialCards.forEach((card) => {
-    gallery.append(createPhotoCard(card));
+    const newCard = new Card(card, '.photo-card');
+    gallery.append(newCard.element);
   });
   toggleGalleryMessage();
 }
