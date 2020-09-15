@@ -1,5 +1,6 @@
 import initialCards from './initialCards.js';
 import Card from './Card.js';
+import FormValidator from './FormValidator.js';
 
 export { togglePopup, toggleGalleryMessage };
 
@@ -26,15 +27,20 @@ const formPlace = document.forms.place;
 const formPlaceName = formPlace.elements['place-name'];
 const formPlaceLink = formPlace.elements['place-link'];
 
+const validatorSettings = {
+  inputSelector: ".form__text",
+  invalidInputClass: "form__text_invalid",
+  submitSelector: ".form__button-submit",
+  submitDisabledClass: "form__button-submit_disabled"
+};
+formPlace.validator = new FormValidator(validatorSettings, formPlace);
+formProfile.validator = new FormValidator(validatorSettings, formProfile);
+
 
 // Объявления функций --------------------------------------------------------
 const toggleGalleryMessage = function () {
-  if (gallery.querySelector('.photo-card')) {
-    galleryMessage.classList.remove('gallery__message_visible');
-  }
-  else {
-    galleryMessage.classList.add('gallery__message_visible');
-  }
+  const hasCard = Boolean(gallery.querySelector('.photo-card'));
+  galleryMessage.classList[hasCard ? 'remove' : 'add']('gallery__message_visible');
 }
 
 const keyEscHandler = function (event) {
@@ -46,16 +52,12 @@ const keyEscHandler = function (event) {
 
 const togglePopup = function (popup) {
   popup.classList.toggle('popup_visible');
-  if (!popup.classList.contains('popup_visible')) {
-    clearForm(popup.querySelector('.form'));
-    document.removeEventListener('keydown', keyEscHandler);
-  }
-  else {
-    document.addEventListener('keydown', keyEscHandler);
-  }
+  const popupClosed = !popup.classList.contains('popup_visible');
+  document[popupClosed ? 'removeEventListener' : 'addEventListener']('keydown', keyEscHandler);
 }
 
 const openProfileForm = function (event) {
+  formProfile.validator.clearStatus();
   formProfileName.value = profileName.textContent;
   formProfileHobby.value = profileCareer.textContent;
   togglePopup(popupProfile);
@@ -82,6 +84,7 @@ const savePlace = function (event) {
   gallery.prepend(newCard.element);
   toggleGalleryMessage();
   togglePopup(popupPlace);
+  formPlace.validator.clearStatus();
 }
 
 const closePopup = function (event) {
@@ -112,4 +115,6 @@ window.onload = function() {
   document.querySelectorAll('.popup').forEach((popup) => {
     popup.addEventListener('click', closePopup);
   });
+  formProfile.validator.enableValidation();
+  formPlace.validator.enableValidation();
 }
