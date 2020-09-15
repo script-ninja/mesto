@@ -30,19 +30,28 @@ export default class Card {
   }
 
   _setEventListeners() {
+    if (!this._element) {
+      this._createElement();
+    }
     this._element.querySelector('.photo-card__image').addEventListener('click', this._openPhoto);
     this._element.querySelector('.photo-card__like-button').addEventListener('click', this._like);
     this._element.querySelector('.photo-card__del-button').addEventListener('click', this._delete);
   }
 
+  _createElement() {
+    this._element = Card._template.querySelector(this._selector).cloneNode(true);
+    const title = this._element.querySelector('.photo-card__title');
+    const image = this._element.querySelector('.photo-card__image');
+    title.textContent = this._name;
+    title.title = this._name;
+    image.alt = this._name;
+    image.src = this._link;
+    this._setEventListeners();
+  }
+
   get element() {
     if (!this._element) {
-      this._element = Card._template.querySelector(this._selector).cloneNode(true);
-      this._element.querySelector('.photo-card__title').textContent = this._name;
-      this._element.querySelector('.photo-card__title').title = this._name;
-      this._element.querySelector('.photo-card__image').alt = this._name;
-      this._element.querySelector('.photo-card__image').src = this._link;
-      this._setEventListeners();
+      this._createElement();
     }
     return this._element;
   }
