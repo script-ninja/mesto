@@ -17,25 +17,16 @@ export default class Card {
     event.target.classList.toggle('photo-card__like-button_liked');
   }
 
-  _openPhoto(event) {
-    Card._popupImage.src = event.target.src;
-    Card._popupImage.alt = event.target.alt;
-    Card._popupTitle.textContent = event.target.alt;
-    togglePopup(Card._popup);
-  }
-
   _delete(event) {
     event.target.closest('.photo-card').remove();
     toggleGalleryMessage();
   }
 
-  _setEventListeners() {
-    if (!this._element) {
-      this._createElement();
-    }
-    this._element.querySelector('.photo-card__image').addEventListener('click', this._openPhoto);
-    this._element.querySelector('.photo-card__like-button').addEventListener('click', this._like);
-    this._element.querySelector('.photo-card__del-button').addEventListener('click', this._delete);
+  _openPhoto(event) {
+    Card._popupImage.src = event.target.src;
+    Card._popupImage.alt = event.target.alt;
+    Card._popupTitle.textContent = event.target.alt;
+    togglePopup(Card._popup);
   }
 
   _createElement() {
@@ -47,6 +38,15 @@ export default class Card {
     image.alt = this._name;
     image.src = this._link;
     this._setEventListeners();
+  }
+
+  _setEventListeners() {
+    if (!this._element) {
+      this._createElement();
+    }
+    this._element.querySelector('.photo-card__image').addEventListener('click', this._openPhoto);
+    this._element.querySelector('.photo-card__like-button').addEventListener('click', this._like);
+    this._element.querySelector('.photo-card__del-button').addEventListener('click', this._delete);
   }
 
   get element() {
