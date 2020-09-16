@@ -21,6 +21,7 @@ export default class FormValidator {
 
   _toggleSubmitState() {
     this._submitButton.classList[this._hasInvalidInput() ? 'add' : 'remove'](this._submitDisabledClass);
+    this._submitButton.disabled = this._hasInvalidInput();
   }
 
   _setEventListeners() {
@@ -41,6 +42,7 @@ export default class FormValidator {
       input.classList.remove(this._invalidInputClass);
     });
     this._submitButton.classList.add(this._submitDisabledClass);
+    this._submitButton.disabled = this._hasInvalidInput();
   }
 
   enableValidation() {
