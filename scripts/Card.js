@@ -1,11 +1,11 @@
-import { togglePopup, toggleGalleryMessage } from './index.js';
+import { toggleGalleryMessage, openPhoto } from './index.js';
 
 export default class Card {
-  static _template = document.querySelector('#photo-card').content;
-  static _popup = document.querySelector('.popup[data-type="photo"]');
-  static _popupImage = Card._popup.querySelector('.photo__image');
-  static _popupTitle = Card._popup.querySelector('.photo__title');
-
+  // Здравстуйте, Ролан! Вы второй раз подряд проверяете мой проект.
+  // Спасибо за похвалу! Отдельное спасибо за то, что прошлую работу
+  // быстро проверили, начал делать её за день до жесткого дедлайна
+  // и боялся, что не успею, но вы быстро проверили её дважды. Благодарю!
+  // Вам тоже успехов!
   constructor(data, selector) {
     this._name = data.name;
     this._link = data.link;
@@ -22,15 +22,8 @@ export default class Card {
     toggleGalleryMessage();
   }
 
-  _openPhoto(event) {
-    Card._popupImage.src = event.target.src;
-    Card._popupImage.alt = event.target.alt;
-    Card._popupTitle.textContent = event.target.alt;
-    togglePopup(Card._popup);
-  }
-
   _createElement() {
-    this._element = Card._template.querySelector(this._selector).cloneNode(true);
+    this._element = document.querySelector(this._selector).content.cloneNode(true);
     const title = this._element.querySelector('.photo-card__title');
     const image = this._element.querySelector('.photo-card__image');
     title.textContent = this._name;
@@ -44,7 +37,7 @@ export default class Card {
     if (!this._element) {
       this._createElement();
     }
-    this._element.querySelector('.photo-card__image').addEventListener('click', this._openPhoto);
+    this._element.querySelector('.photo-card__image').addEventListener('click', openPhoto);
     this._element.querySelector('.photo-card__like-button').addEventListener('click', this._like);
     this._element.querySelector('.photo-card__del-button').addEventListener('click', this._delete);
   }

@@ -2,7 +2,7 @@ import initialCards from './initialCards.js';
 import Card from './Card.js';
 import FormValidator from './FormValidator.js';
 
-export { togglePopup, toggleGalleryMessage };
+export { toggleGalleryMessage, openPhoto };
 
 
 // Объявления переменных -----------------------------------------------------
@@ -27,6 +27,10 @@ const formPlace = document.forms.place;
 const formPlaceName = formPlace.elements['place-name'];
 const formPlaceLink = formPlace.elements['place-link'];
 
+const popupPhoto = document.querySelector('.popup[data-type="photo"]');
+const photoImage = popupPhoto.querySelector('.photo__image');
+const photoTitle = popupPhoto.querySelector('.photo__title');
+
 const validatorSettings = {
   inputSelector: ".form__text",
   invalidInputClass: "form__text_invalid",
@@ -38,6 +42,13 @@ formProfile.validator = new FormValidator(validatorSettings, formProfile);
 
 
 // Объявления функций --------------------------------------------------------
+const openPhoto = function (event) {
+  photoImage.src = event.target.src;
+  photoImage.alt = event.target.alt;
+  photoTitle.textContent = event.target.alt;
+  togglePopup(popupPhoto);
+}
+
 const toggleGalleryMessage = function () {
   const hasCard = Boolean(gallery.querySelector('.photo-card'));
   galleryMessage.classList[hasCard ? 'remove' : 'add']('gallery__message_visible');
@@ -80,7 +91,7 @@ const savePlace = function (event) {
     name: formPlaceName.value,
     link: formPlaceLink.value
   };
-  const newCard = new Card(cardData, '.photo-card');
+  const newCard = new Card(cardData, '#photo-card');
   gallery.prepend(newCard.element);
   toggleGalleryMessage();
   togglePopup(popupPlace);
@@ -98,7 +109,7 @@ const closePopup = function (event) {
 
 const renderInitialCards = function () {
   initialCards.forEach((card) => {
-    const newCard = new Card(card, '.photo-card');
+    const newCard = new Card(card, '#photo-card');
     gallery.append(newCard.element);
   });
   toggleGalleryMessage();
