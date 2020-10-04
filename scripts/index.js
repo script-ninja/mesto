@@ -1,6 +1,7 @@
 import initialCards from './initialCards.js';
 import Card from './Card.js';
 import FormValidator from './FormValidator.js';
+import Section from './Section.js';
 
 export { toggleGalleryMessage, openPhoto };
 
@@ -40,7 +41,6 @@ const validatorSettings = {
 formPlace.validator = new FormValidator(validatorSettings, formPlace);
 formProfile.validator = new FormValidator(validatorSettings, formProfile);
 
-
 // Объявления функций --------------------------------------------------------
 const openPhoto = function (event) {
   photoImage.src = event.target.src;
@@ -49,6 +49,7 @@ const openPhoto = function (event) {
   togglePopup(popupPhoto);
 }
 
+// isEmpty
 const toggleGalleryMessage = function () {
   const hasCard = Boolean(gallery.querySelector('.photo-card'));
   galleryMessage.classList[hasCard ? 'remove' : 'add']('gallery__message_visible');
@@ -107,18 +108,36 @@ const closePopup = function (event) {
   }
 }
 
-const renderInitialCards = function () {
-  initialCards.forEach((card) => {
-    const newCard = new Card(card, '#photo-card');
-    gallery.append(newCard.element);
-  });
-  toggleGalleryMessage();
-}
+// const renderInitialCards = function () {
+//   initialCards.forEach((card) => {
+//     const newCard = new Card(card, '#photo-card');
+//     gallery.append(newCard.element);
+//   });
+//   toggleGalleryMessage();
+// }
+
+
+const sectionGallery = new Section(
+  {
+    items: initialCards.map(function(card) {
+      return new Card(card, '#photo-card').element;
+    }),
+    renderer: function(element) {
+      sectionGallery.addItem(element, 'append');
+    },
+    isEmpty: function() {
+      return !Boolean(this._container.querySelector('.photo-card'));
+    }
+  },
+  '.gallery'
+);
 
 
 // Точка входа ---------------------------------------------------------------
 window.onload = function() {
-  renderInitialCards();
+  // renderInitialCards();
+  sectionGallery.renderItems();
+  toggleGalleryMessage();
   profileButtonEdit.addEventListener('click', openProfileForm);
   profileButtonAdd.addEventListener('click', openPlaceForm);
   formProfile.addEventListener('submit', saveProfile);

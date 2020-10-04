@@ -1,10 +1,10 @@
 import { toggleGalleryMessage, openPhoto } from './index.js';
 
 export default class Card {
-  constructor(data, selector) {
-    this._name = data.name;
-    this._link = data.link;
-    this._selector = selector;
+  constructor({ name, link }, selector) {
+    this._name = name;
+    this._link = link;
+    this._selector = selector; // селектор шаблона
     this._element = null;
   }
 
