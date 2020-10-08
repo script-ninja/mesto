@@ -2,6 +2,7 @@ import initialCards from './initialCards.js';
 import Card from './Card.js';
 import FormValidator from './FormValidator.js';
 import Section from './Section.js';
+import PopupWithImage from './PopupWithImage.js';
 
 export { toggleGalleryMessage, openPhoto };
 

@@ -15,7 +15,7 @@ export default class Popup {
         event.target.classList.contains('popup__button-close') ||
         event.target === event.currentTarget
       ) {
-        this.close();
+        this.close(); // !!! чекнуть this
       }
     })
   }
