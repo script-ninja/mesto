@@ -3,6 +3,7 @@ import Card from './Card.js';
 import FormValidator from './FormValidator.js';
 import Section from './Section.js';
 import PopupWithImage from './PopupWithImage.js';
+import PopupWithForm from './PopupWithForm.js';
 
 export { toggleGalleryMessage, openPhoto };
 
@@ -124,7 +125,7 @@ const sectionGallery = new Section(
       return new Card(card, '#photo-card').element;
     }),
     renderer: function(element) {
-      sectionGallery.addItem(element, 'append');
+      this.addItem(element, 'append');
     },
     isEmpty: function() {
       return !Boolean(this._container.querySelector('.photo-card'));

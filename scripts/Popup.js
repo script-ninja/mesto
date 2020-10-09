@@ -15,18 +15,19 @@ export default class Popup {
         event.target.classList.contains('popup__button-close') ||
         event.target === event.currentTarget
       ) {
+        debugger;
         this.close(); // !!! чекнуть this
       }
     })
   }
 
   open() {
-    this._popup.classList.add('.popup_visible');
+    this._popup.classList.add('popup_visible');
     document.addEventListener('keydown', this._handleEscClose);
   }
 
   close() {
-    this._popup.classList.remove('.popup_visible');
+    this._popup.classList.remove('popup_visible');
     document.removeEventListener('keydown', this._handleEscClose);
   }
 }
