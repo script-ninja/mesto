@@ -35,10 +35,10 @@ const formPlaceLink = formPlace.elements['place-link'];
 // const photoTitle = popupPhoto.querySelector('.photo__title');
 
 const validatorSettings = {
-  inputSelector: ".form__text",
-  invalidInputClass: "form__text_invalid",
-  submitSelector: ".form__button-submit",
-  submitDisabledClass: "form__button-submit_disabled"
+  inputSelector: '.form__text',
+  invalidInputClass: 'form__text_invalid',
+  submitSelector: '.form__button-submit',
+  submitDisabledClass: 'form__button-submit_disabled'
 };
 formPlace.validator = new FormValidator(validatorSettings, formPlace);
 formProfile.validator = new FormValidator(validatorSettings, formProfile);
@@ -64,10 +64,9 @@ const popupWithFormProfile = new PopupWithForm(
   '.popup[data-type="profile"]',
   function(event) {
     event.preventDefault();
-    const userNameInput = this._formElement.elements['user-name'];
-    const userHobbyInput = this._formElement.elements['user-hobby'];
-    document.querySelector('.profile__name').textContent = userNameInput.value;
-    document.querySelector('.profile__career').textContent = userHobbyInput.value;
+    const { 'user-name': name, 'user-hobby': hobby } = this._getInputValues();
+    document.querySelector('.profile__name').textContent = name;
+    document.querySelector('.profile__career').textContent = hobby;
     this.close();
   }
 );
@@ -76,16 +75,11 @@ const popupWithFormPlace = new PopupWithForm(
   '.popup[data-type="place"]',
   function(event) {
     event.preventDefault();
-    // Сделать через _getInputValues()
-    const cardData = {
-      name: this._formElement.elements['place-name'].value,
-      link: this._formElement.elements['place-link'].value
-    };
-    const newCard = new Card(cardData, '#photo-card', popupWithImage.open.bind(popupWithImage));
+    const { 'place-name': name, 'place-link': link } = this._getInputValues();
+    const newCard = new Card({ name, link }, '#photo-card', popupWithImage.open.bind(popupWithImage));
     sectionGallery.addItem(newCard.element, 'prepend');
     toggleGalleryMessage();
     this.close();
-    formPlace.validator.clearStatus();
   }
 );
 
@@ -125,6 +119,7 @@ const openProfileForm = function (event) {
 // }
 
 const openPlaceForm = function (event) {
+  formPlace.validator.clearStatus();
   popupWithFormPlace.open();
 }
 
