@@ -1,4 +1,4 @@
-import { toggleGalleryMessage } from './index.js';
+// import { toggleGalleryMessage } from './index.js';
 
 export default class Card {
   constructor({ name, link }, templateSelector, handleCardClick) {
@@ -15,7 +15,7 @@ export default class Card {
 
   _delete(event) {
     event.target.closest('.photo-card').remove();
-    toggleGalleryMessage();
+    // toggleGalleryMessage();
   }
 
   _createElement() {
