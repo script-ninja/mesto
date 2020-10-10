@@ -1,11 +1,12 @@
-import { toggleGalleryMessage, openPhoto } from './index.js';
+import { toggleGalleryMessage } from './index.js';
 
 export default class Card {
-  constructor({ name, link }, selector) {
+  constructor({ name, link }, templateSelector, handleCardClick) {
     this._name = name;
     this._link = link;
-    this._selector = selector; // селектор шаблона
+    this._templateSelector = templateSelector;
     this._element = null;
+    this._handleCardClick = handleCardClick;
   }
 
   _like(event) {
@@ -18,7 +19,7 @@ export default class Card {
   }
 
   _createElement() {
-    this._element = document.querySelector(this._selector).content.cloneNode(true);
+    this._element = document.querySelector(this._templateSelector).content.cloneNode(true);
     const title = this._element.querySelector('.photo-card__title');
     const image = this._element.querySelector('.photo-card__image');
     title.textContent = this._name;
@@ -32,7 +33,7 @@ export default class Card {
     if (!this._element) {
       this._createElement();
     }
-    this._element.querySelector('.photo-card__image').addEventListener('click', openPhoto);
+    this._element.querySelector('.photo-card__image').addEventListener('click', this._handleCardClick);
     this._element.querySelector('.photo-card__like-button').addEventListener('click', this._like);
     this._element.querySelector('.photo-card__del-button').addEventListener('click', this._delete);
   }

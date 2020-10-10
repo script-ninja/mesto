@@ -1,7 +1,6 @@
 export default class Popup {
   constructor(popupSelector) {
     this._popup = document.querySelector(popupSelector);
-    this._setEventListeners();
   }
 
   _handleEscClose(event) {
@@ -11,20 +10,16 @@ export default class Popup {
   }
 
   _setEventListeners() {
-    this._popup.addEventListener('click', function(event) {
-      if (
-        event.target.classList.contains('popup__button-close') ||
-        event.target === event.currentTarget
-      ) {
-        debugger;
-        this.close(); // !!! чекнуть this
+    this._popup.addEventListener('click', (event) => {
+      if (event.target.classList.contains('popup__button-close') || event.target === event.currentTarget) {
+        this.close();
       }
     })
   }
 
   open() {
     this._popup.classList.add('popup_visible');
-    document.addEventListener('keydown', this._handleEscClose);
+    document.addEventListener('keydown', this._handleEscClose.bind(this));
   }
 
   close() {
