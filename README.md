@@ -25,6 +25,11 @@
 - Классы (class, extends)
 - Модули (import, export)
 - Введение в this
+- —
+- Деструктуризация
+- ООП в интерфейсах
+- Привязка this и потеря контекста
+- Сборка проекта Webpack'ом
 
 Для динамического изменения контента под разные разрешения используются CSS-шлюзы:<br>
 `y = (x - x1) / (x2 - x1) * (y2 - y1) + y1`
@@ -44,6 +49,16 @@
 - Редактор кода VSCode
 - Chrome DevTools
 - Система контроля версий Git
+- Webpack
+    - Babel
+    - HtmlWebpackPlugin
+    - пакеты для изображений: file-loader, html-loader
+    - пакеты для css:
+        - css-loader
+        - mini-css-extract-plugin
+        - postcss
+        - autoprefixer
+        - cssnano
 
 **Использованные технологии**
 - HTML5, CSS3, ECMAScript6+
@@ -59,6 +74,10 @@
 
 ### Лог обновлений
 <br>
+
+**Спринт 8**
+- ООП для всего проекта
+- Сборка проекта Webpack'ом
 
 **Спринт 7**
 - ООП в реализации карточек
