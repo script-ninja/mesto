@@ -20,11 +20,6 @@ const formProfileHobby = formProfile.elements['user-hobby'];
 
 const formPlace = document.forms.place;
 
-const userInfo = new UserInfo({
-  userNameSelector: '.profile__name',
-  userInfoSelector: '.profile__career'
-});
-
 const validatorSettings = {
   inputSelector: '.form__text',
   invalidInputClass: 'form__text_invalid',
@@ -34,30 +29,10 @@ const validatorSettings = {
 formPlace.validator = new FormValidator(validatorSettings, formPlace);
 formProfile.validator = new FormValidator(validatorSettings, formProfile);
 
-const sectionGallery = new Section(
-  {
-    items: initialCards.map(function(card) {
-      return new Card(card, '#photo-card', popupWithImage.open.bind(popupWithImage)).element;
-    }),
-    renderer: function(element) {
-      this.addItem(element, 'append');
-    },
-    isEmpty: function() {
-      return !Boolean(this._container.querySelector('.photo-card'));
-    },
-    toggleEmptyMessage: function() {
-      document
-        .querySelector('.gallery__message')
-        .classList[this.isEmpty() ? 'add' : 'remove']('gallery__message_visible');
-    },
-    handleItemRemoval: function(event) {
-      if (event.target.classList.contains('photo-card__del-button')) {
-        this.toggleEmptyMessage();
-      }
-    }
-  },
-  '.gallery'
-);
+const userInfo = new UserInfo({
+  userNameSelector: '.profile__name',
+  userInfoSelector: '.profile__career'
+});
 
 // ___ Popups ___
 const popupWithFormProfile = new PopupWithForm(
@@ -83,6 +58,31 @@ const popupWithFormPlace = new PopupWithForm(
 
 const popupWithImage = new PopupWithImage('.popup[data-type="photo"]', '.photo__image', '.photo__title');
 // ______________
+
+const sectionGallery = new Section(
+  {
+    items: initialCards.map(function(card) {
+      return new Card(card, '#photo-card', popupWithImage.open.bind(popupWithImage)).element;
+    }),
+    renderer: function(element) {
+      this.addItem(element, 'append');
+    },
+    isEmpty: function() {
+      return !Boolean(this._container.querySelector('.photo-card'));
+    },
+    toggleEmptyMessage: function() {
+      document
+        .querySelector('.gallery__message')
+        .classList[this.isEmpty() ? 'add' : 'remove']('gallery__message_visible');
+    },
+    handleItemRemoval: function(event) {
+      if (event.target.classList.contains('photo-card__del-button')) {
+        this.toggleEmptyMessage();
+      }
+    }
+  },
+  '.gallery'
+);
 
 
 // Объявления функций --------------------------------------------------------
