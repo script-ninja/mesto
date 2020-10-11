@@ -34,8 +34,6 @@ const validatorSettings = {
 formPlace.validator = new FormValidator(validatorSettings, formPlace);
 formProfile.validator = new FormValidator(validatorSettings, formProfile);
 
-const popupWithImage = new PopupWithImage('.popup[data-type="photo"]', '.photo__image', '.photo__title');
-
 const sectionGallery = new Section(
   {
     items: initialCards.map(function(card) {
@@ -61,6 +59,7 @@ const sectionGallery = new Section(
   '.gallery'
 );
 
+// ___ Popups ___
 const popupWithFormProfile = new PopupWithForm(
   '.popup[data-type="profile"]',
   function(event) {
@@ -81,6 +80,10 @@ const popupWithFormPlace = new PopupWithForm(
     this.close();
   }
 );
+
+const popupWithImage = new PopupWithImage('.popup[data-type="photo"]', '.photo__image', '.photo__title');
+// ______________
+
 
 // Объявления функций --------------------------------------------------------
 const openProfileForm = function (event) {

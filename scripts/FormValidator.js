@@ -35,7 +35,7 @@ export default class FormValidator {
   }
 
   clearStatus() {
-    this._formElement.reset();
+    // this._formElement.reset();
     this._inputList.forEach((input) => {
       const inputError = this._formElement.querySelector(`#${input.id}-error`);
       inputError.textContent = '';
