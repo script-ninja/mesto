@@ -29,7 +29,11 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: [MiniCssExtractPlugin.loader, 'css-loader']
+        loader: [
+          MiniCssExtractPlugin.loader,
+          { loader: 'css-loader', options: { importLoaders: 1 } },
+          'postcss-loader'
+        ]
       }
     ]
   },
