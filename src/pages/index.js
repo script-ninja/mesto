@@ -1,19 +1,15 @@
-import initialCards from './initialCards.js';
-import Card from './Card.js';
-import FormValidator from './FormValidator.js';
-import Section from './Section.js';
-import PopupWithImage from './PopupWithImage.js';
-import PopupWithForm from './PopupWithForm.js';
-import UserInfo from './UserInfo.js';
+import { initialCards, validatorSettings } from '../utils/constants.js';
+import Card from '../components/Card.js';
+import FormValidator from '../components/FormValidator.js';
+import Section from '../components/Section.js';
+import PopupWithImage from '../components/PopupWithImage.js';
+import PopupWithForm from '../components/PopupWithForm.js';
+import UserInfo from '../components/UserInfo.js';
 
 
 // Объявления переменных -----------------------------------------------------
-const validatorSettings = {
-  inputSelector: '.form__text',
-  invalidInputClass: 'form__text_invalid',
-  submitSelector: '.form__button-submit',
-  submitDisabledClass: 'form__button-submit_disabled'
-};
+
+// Validators ----
 const formPlaceValidator = new FormValidator(validatorSettings, document.forms.place);
 const formProfileValidator = new FormValidator(validatorSettings, document.forms.profile);
 
@@ -22,7 +18,8 @@ const userInfo = new UserInfo({
   userInfoSelector: '.profile__career'
 });
 
-// Popups -----
+
+// Popups ----
 const popupWithFormProfile = new PopupWithForm(
   '.popup[data-type="profile"]',
   function(event) {
@@ -45,8 +42,9 @@ const popupWithFormPlace = new PopupWithForm(
 );
 
 const popupWithImage = new PopupWithImage('.popup[data-type="photo"]', '.photo__image', '.photo__title');
-// ------------
 
+
+// Sections ----
 const sectionGallery = new Section(
   {
     items: initialCards.map(function(card) {

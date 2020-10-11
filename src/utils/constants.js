@@ -1,4 +1,6 @@
-export default [
+export { initialCards, validatorSettings };
+
+const initialCards = [
   {
       name: 'Архыз',
       link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg',
@@ -24,3 +26,10 @@ export default [
       link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg',
   }
 ];
+
+const validatorSettings = {
+  inputSelector: '.form__text',
+  invalidInputClass: 'form__text_invalid',
+  submitSelector: '.form__button-submit',
+  submitDisabledClass: 'form__button-submit_disabled'
+};
