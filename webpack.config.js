@@ -17,6 +17,14 @@ module.exports = {
         test: /\.js$/, // регулярное выражение, которое ищет все js файлы
         loader: 'babel-loader', // при обработке этих файлов нужно использовать babel-loader
         exclude: '/node_modules/' // исключает папку node_modules, файлы в ней обрабатывать не нужно
+      },
+      {
+        test: /\.(png|svg|jpg|gif|woff2|woff)$/, // регулярное выражение, которое ищет все файлы с такими расширениями
+        loader: 'file-loader' // при обработке этих файлов нужно использовать file-loader
+      },
+      {
+        test: /\.html$/,
+        loader: 'html-loader'
       }
     ]
   },
