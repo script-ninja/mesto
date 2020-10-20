@@ -14,8 +14,8 @@ export default class Section {
     });
   }
 
-  addItem(item, position) {
-    this._container[position](item);
+  addItem(item, isFirst = false) {
+    this._container[isFirst ? 'prepend' : 'append'](item);
     this.toggleEmptyMessage();
   }
 }

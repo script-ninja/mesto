@@ -38,7 +38,7 @@ const popupWithFormPlace = new PopupWithForm(
     event.preventDefault();
     const { 'place-name': name, 'place-link': link } = this._getInputValues();
     const newCard = new Card({ name, link }, '#photo-card', popupWithImage.open.bind(popupWithImage));
-    sectionGallery.addItem(newCard.element, 'prepend');
+    sectionGallery.addItem(newCard.element, true);
     this.close();
   }
 );
@@ -53,7 +53,7 @@ const sectionGallery = new Section(
       return new Card(card, '#photo-card', popupWithImage.open.bind(popupWithImage)).element;
     }),
     renderer: function(element) {
-      this.addItem(element, 'append');
+      this.addItem(element);
     },
     isEmpty: function() {
       return !Boolean(this._container.querySelector('.photo-card'));
