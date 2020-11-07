@@ -1,4 +1,4 @@
-export { initialCards, validatorSettings };
+export { initialCards, validatorSettings, keys };
 
 const initialCards = [
   {
@@ -32,4 +32,8 @@ const validatorSettings = {
   invalidInputClass: 'form__text_invalid',
   submitSelector: '.form__button-submit',
   submitDisabledClass: 'form__button-submit_disabled'
+};
+
+const keys = {
+  escape: 'Escape'
 };
