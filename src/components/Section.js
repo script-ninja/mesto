@@ -1,11 +1,11 @@
 export default class Section {
-  constructor({ items, renderer, isEmpty, toggleEmptyMessage, handleItemRemoval }, containerSelector) {
+  constructor({ items, renderer /*, isEmpty, toggleEmptyMessage, handleItemRemoval*/ }, containerSelector) {
     this._items = items;
     this._renderItem = renderer;
     this._container = document.querySelector(containerSelector);
-    this.isEmpty = isEmpty;
-    this.toggleEmptyMessage = toggleEmptyMessage;
-    this._container.addEventListener('click', handleItemRemoval.bind(this));
+    // this.isEmpty = isEmpty;
+    // this.toggleEmptyMessage = toggleEmptyMessage;
+    // this._container.addEventListener('click', handleItemRemoval.bind(this));
   }
 
   renderItems() {
@@ -16,6 +16,6 @@ export default class Section {
 
   addItem(item, isFirst = false) {
     this._container[isFirst ? 'prepend' : 'append'](item);
-    this.toggleEmptyMessage();
+    // this.toggleEmptyMessage();
   }
 }
