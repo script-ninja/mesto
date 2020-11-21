@@ -55,19 +55,19 @@ const sectionGallery = new Section(
     renderer: function(element) {
       this.addItem(element);
     },
-    // isEmpty: function() {
-    //   return !Boolean(this._container.querySelector('.photo-card'));
-    // },
-    // toggleEmptyMessage: function() {
-    //   document
-    //     .querySelector('.gallery__message')
-    //     .classList[this.isEmpty() ? 'add' : 'remove']('gallery__message_visible');
-    // },
-    // handleItemRemoval: function(event) {
-    //   if (event.target.classList.contains('photo-card__del-button')) {
-    //     this.toggleEmptyMessage();
-    //   }
-    // }
+    isEmpty: function() {
+      return !Boolean(this._container.querySelector('.photo-card'));
+    },
+    toggleEmptyMessage: function() {
+      document
+        .querySelector('.gallery__message')
+        .classList[this.isEmpty() ? 'add' : 'remove']('gallery__message_visible');
+    },
+    handleItemRemoval: function(event) {
+      if (event.target.classList.contains('photo-card__del-button')) {
+        this.toggleEmptyMessage();
+      }
+    }
   },
   '.gallery'
 );
