@@ -7,18 +7,37 @@ import Section from '../components/Section.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
+import API from '../components/API.js';
 
 
 // Объявления переменных -----------------------------------------------------
+
+// API ---
+const api = new API({
+  url: 'https://mesto.nomoreparties.co/v1/cohort-18',
+  token: '80cc9190-bc61-4b09-b6f2-ea43f973474f'
+});
 
 // Validators ----
 const formPlaceValidator = new FormValidator(validatorSettings, document.forms.place);
 const formProfileValidator = new FormValidator(validatorSettings, document.forms.profile);
 
-const userInfo = new UserInfo({
-  userNameSelector: '.profile__name',
-  userInfoSelector: '.profile__career'
-});
+
+const userInfo = new UserInfo(
+  {
+    userNameSelector: '.profile__name',
+    userInfoSelector: '.profile__career',
+    userAvatarSelector: '.profile__avatar'
+  },
+  function() {
+    api.getUserData('/users/me')
+    .then(userData => {
+      userInfo.setUserInfo(userData.name, userData.about, userData.avatar);
+      userInfo._id = userData._id;
+    })
+    .catch(error => { console.log(error); });
+  }
+);
 
 
 // Popups ----
@@ -26,9 +45,16 @@ const popupWithFormProfile = new PopupWithForm(
   '.popup[data-type="profile"]',
   function(event) {
     event.preventDefault();
+
+    formProfileValidator._submitButton.disabled = true;
+    formProfileValidator._submitButton.textContent = 'Сохранение ...';
+
     const { 'user-name': name, 'user-hobby': info } = this._getInputValues();
-    userInfo.setUserInfo(name, info);
-    this.close();
+
+    api.setUserData('/users/me', { name, info })
+    .then(() => { userInfo.setUserInfo(name, info) })
+    .catch(error => { console.log(error); })
+    .finally(() => { this.close(); });
   }
 );
 
@@ -43,7 +69,11 @@ const popupWithFormPlace = new PopupWithForm(
   }
 );
 
-const popupWithImage = new PopupWithImage('.popup[data-type="photo"]', '.photo__image', '.photo__title');
+const popupWithImage = new PopupWithImage(
+  '.popup[data-type="photo"]',
+  '.photo__image',
+  '.photo__title'
+);
 
 
 // Sections ----
@@ -75,8 +105,11 @@ const sectionGallery = new Section(
 
 // Точка входа ---------------------------------------------------------------
 window.onload = function() {
+  userInfo.init();
+
   document.querySelector('.profile__edit-button').addEventListener('click', () => {
     formProfileValidator.clearStatus();
+    formProfileValidator._submitButton.textContent = 'Сохранить';
     const { name, info } = userInfo.getUserInfo();
     document.forms.profile.elements['user-name'].value = name;
     document.forms.profile.elements['user-hobby'].value = info;
