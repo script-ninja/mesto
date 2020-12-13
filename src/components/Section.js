@@ -1,6 +1,6 @@
 export default class Section {
   constructor({ renderer, isEmpty, toggleEmptyMessage, handleItemRemoval }, containerSelector) {
-    // this._items = items;
+    this._items = null;
     this._renderItem = renderer;
     this._container = document.querySelector(containerSelector);
     this.isEmpty = isEmpty;
@@ -9,9 +9,12 @@ export default class Section {
   }
 
   renderItems(items) {
-    items.forEach((item) => {
-      this._renderItem(item);
-    });
+    this._items = items;
+    if (items) {
+      items.forEach((item) => {
+        this._renderItem(item);
+      });
+    }
   }
 
   addItem(item, isFirst = false) {

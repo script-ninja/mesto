@@ -1,5 +1,8 @@
 export default class Card {
-  constructor({ _id, name, link, owner, likes }, templateSelector, handleCardClick) {
+  constructor(
+    { _id, name, link, owner, likes },
+    templateSelector, handleCardClick, handleCardDeletion
+  ) {
     this._id = _id;
     this._name = name;
     this._link = link;
@@ -7,6 +10,7 @@ export default class Card {
     this._likes = likes;
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
+    this._handleCardDeletion = handleCardDeletion;
     this._element = null;
   }
 
@@ -14,12 +18,14 @@ export default class Card {
     event.target.classList.toggle('photo-card__like-button_liked');
   }
 
-  _delete(event) {
-    event.target.closest('.photo-card').remove();
-  }
+  // _delete(event) {
+  //   event.target.closest('.photo-card').remove();
+  // }
 
   _createElement() {
-    this._element = document.querySelector(this._templateSelector).content.cloneNode(true);
+    this._element = document
+      .querySelector(this._templateSelector).content
+      .querySelector('.photo-card').cloneNode(true);
     const title = this._element.querySelector('.photo-card__title');
     const image = this._element.querySelector('.photo-card__image');
     title.textContent = this._name;
@@ -38,7 +44,9 @@ export default class Card {
       this._handleCardClick(this._name, this._link);
     });
     this._element.querySelector('.photo-card__like-button').addEventListener('click', this._like);
-    this._element.querySelector('.photo-card__del-button').addEventListener('click', this._delete);
+    this._element.querySelector('.photo-card__del-button').addEventListener('click', () => {
+      this._handleCardDeletion({ id: this._id, element: this._element });
+    });
   }
 
   get element() {

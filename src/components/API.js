@@ -91,4 +91,18 @@ export default class API {
         : this._getErrorInfo(response);
     });
   }
+
+  deleteCard(path, cardID) {
+    return fetch(this._baseURL + path + cardID, {
+      method: 'DELETE',
+      headers: {
+        authorization: this._token
+      }
+    })
+    .then(response => {
+      return response.ok
+        ? response.json()
+        : this._getErrorInfo(response);
+    });
+  }
 }

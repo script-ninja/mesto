@@ -22,6 +22,11 @@ export default class PopupWithForm extends Popup {
     return inputValues;
   }
 
+  open(card) {
+    super.open();
+    this._card = card;
+  }
+
   close() {
     super.close();
     this._formElement.reset();
