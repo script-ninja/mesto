@@ -94,7 +94,7 @@ const popupWithFormPlace = new PopupWithForm(
     api.addCard('/cards', { name, link })
     .then(card => {
       const newCard = new Card(
-        card, '#photo-card', popupWithImage.open.bind(popupWithImage), handleCardDeletion
+        card, '#photo-card', popupWithImage.open.bind(popupWithImage), handleCardDeletion, handleCardLike
       );
       sectionGallery.addItem(newCard.element, true);
     })
@@ -109,9 +109,8 @@ const popupWithFormConfirmation = new PopupWithForm(
     event.preventDefault();
     this._formElement.querySelector('button[type="submit"]').textContent = 'Удаление ...';
 
-    // api
     api.deleteCard('/cards/', this._card.id)
-    .then(ok => {
+    .then(resolved => {
       this._card.element.remove();
     })
     .catch(error => { console.log(error); })
@@ -126,6 +125,15 @@ const popupWithFormConfirmation = new PopupWithForm(
 
 function handleCardDeletion(card) {
   popupWithFormConfirmation.open(card);
+}
+
+function handleCardLike(event, cardID) {
+  api.toggleLike(`/cards/likes/${cardID}`, event.target.classList.contains('photo-card__like-button_liked'))
+  .then(card => {
+    this._likes = card.likes;
+    this._element.querySelector('.photo-card__like-button').textContent = this._likes.length;
+  })
+  .catch(error => { console.log(error); });
 }
 
 const popupWithImage = new PopupWithImage(
@@ -163,16 +171,20 @@ const sectionGallery = new Section(
 window.onload = function() {
   Promise.all([
     userInfo.init()
-    .then(ok => {
+    .then(resolved => {
       api.getCards('/cards')
       .then(cards => {
         const cohortCards = cards.map(card => {
           const newCard = new Card(
-            card, '#photo-card', popupWithImage.open.bind(popupWithImage), handleCardDeletion
-          ).element;
+            card, '#photo-card', popupWithImage.open.bind(popupWithImage), handleCardDeletion, handleCardLike
+          );
           if (card.owner._id !== userInfo._id)
-            newCard.querySelector('.photo-card__del-button').remove();
-          return newCard;
+            newCard.element.querySelector('.photo-card__del-button').remove();
+          card.likes.forEach((user) => {
+            if (user._id === userInfo._id)
+              newCard._like(newCard.element.querySelector('.photo-card__like-button'));
+          });
+          return newCard.element;
         });
         sectionGallery.renderItems(cohortCards);
       })

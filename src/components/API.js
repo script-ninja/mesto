@@ -105,4 +105,18 @@ export default class API {
         : this._getErrorInfo(response);
     });
   }
+
+  toggleLike(path, isLiked) {
+    return fetch(this._baseURL + path, {
+      method: isLiked ? 'DELETE' : 'PUT',
+      headers: {
+        authorization: this._token
+      }
+    })
+    .then(response => {
+      return response.ok
+        ? response.json()
+        : this._getErrorInfo(response);
+    });
+  }
 }
