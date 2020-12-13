@@ -72,4 +72,23 @@ export default class API {
         : this._getErrorInfo(response);
     });
   }
+
+  addCard(path, card) {
+    return fetch(this._baseURL + path, {
+      method: 'POST',
+      headers: {
+        authorization: this._token,
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: card.name,
+        link: card.link
+      })
+    })
+    .then(response => {
+      return response.ok
+        ? response.json()
+        : this._getErrorInfo(response);
+    });
+  }
 }

@@ -81,10 +81,19 @@ const popupWithFormPlace = new PopupWithForm(
   '.popup[data-type="place"]',
   function(event) {
     event.preventDefault();
+
+    formPlaceValidator._submitButton.disabled = true;
+    formPlaceValidator._submitButton.textContent = 'Создание ...';
+
     const { 'place-name': name, 'place-link': link } = this._getInputValues();
-    const newCard = new Card({ name, link }, '#photo-card', popupWithImage.open.bind(popupWithImage));
-    sectionGallery.addItem(newCard.element, true);
-    this.close();
+
+    api.addCard('/cards', { name, link })
+    .then(card => {
+      const newCard = new Card(card, '#photo-card', popupWithImage.open.bind(popupWithImage));
+      sectionGallery.addItem(newCard.element, true);
+    })
+    .catch(error => { console.log(error); })
+    .finally(() => { this.close(); });
   }
 );
 
@@ -142,6 +151,7 @@ window.onload = function() {
 
   document.querySelector('.profile__add-button').addEventListener('click', () => {
     formPlaceValidator.clearStatus();
+    formPlaceValidator._submitButton.textContent = 'Создать';
     popupWithFormPlace.open();
   });
 
