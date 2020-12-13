@@ -18,9 +18,11 @@ const api = new API({
   token: '80cc9190-bc61-4b09-b6f2-ea43f973474f'
 });
 
+
 // Validators ----
 const formPlaceValidator = new FormValidator(validatorSettings, document.forms.place);
 const formProfileValidator = new FormValidator(validatorSettings, document.forms.profile);
+const formAvatarValidator = new FormValidator(validatorSettings, document.forms.avatar);
 
 
 const userInfo = new UserInfo(
@@ -41,6 +43,24 @@ const userInfo = new UserInfo(
 
 
 // Popups ----
+const popupWithFormAvatar = new PopupWithForm(
+  '.popup[data-type="avatar"]',
+  function(event) {
+    event.preventDefault();
+
+    formAvatarValidator._submitButton.disabled = true;
+    formAvatarValidator._submitButton.textContent = 'Сохранение ...';
+    // formAvatarValidator._submitButton.classList.add(formAvatarValidator._submitDisabledClass);
+
+    const { 'avatar-link': url } = this._getInputValues();
+
+    api.setUserAvatar('/users/me/avatar', url)
+    .then(() => { userInfo.setUserAvatar(url); })
+    .catch(error => { console.log(error); })
+    .finally(() => { this.close(); });
+  }
+);
+
 const popupWithFormProfile = new PopupWithForm(
   '.popup[data-type="profile"]',
   function(event) {
@@ -107,6 +127,14 @@ const sectionGallery = new Section(
 window.onload = function() {
   userInfo.init();
 
+  document.querySelector('.profile__avatar-overlay').addEventListener('click', () => {
+    formAvatarValidator.clearStatus();
+    formAvatarValidator._submitButton.textContent = 'Сохранить';
+    const { avatar } = userInfo.getUserInfo();
+    document.forms.avatar.elements['avatar-link'].value = avatar;
+    popupWithFormAvatar.open();
+  });
+
   document.querySelector('.profile__edit-button').addEventListener('click', () => {
     formProfileValidator.clearStatus();
     formProfileValidator._submitButton.textContent = 'Сохранить';
@@ -115,11 +143,15 @@ window.onload = function() {
     document.forms.profile.elements['user-hobby'].value = info;
     popupWithFormProfile.open();
   });
+
   document.querySelector('.profile__add-button').addEventListener('click', () => {
     formPlaceValidator.clearStatus();
     popupWithFormPlace.open();
   });
+
   sectionGallery.renderItems();
+
+  formAvatarValidator.enableValidation();
   formProfileValidator.enableValidation();
   formPlaceValidator.enableValidation();
 }

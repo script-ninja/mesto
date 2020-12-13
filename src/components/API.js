@@ -36,4 +36,22 @@ export default class API {
         : Promise.reject(`Error ${response.status}: ${response.statusText}.`);
     });
   }
+
+  setUserAvatar(path, url) {
+    return fetch(this._baseURL + path, {
+      method: 'PATCH',
+      headers: {
+        authorization: this._token,
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        avatar: url
+      })
+    })
+    .then(response => {
+      return response.ok
+        ? response.json()
+        : Promise.reject(`Error ${response.status}: ${response.statusText}.`);
+    })
+  }
 }

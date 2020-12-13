@@ -19,7 +19,9 @@
     <main class="content">
 
       <section class="profile content__profile">
-        <img src="./images/profile__avatar.jpg" alt="Картинка профиля" class="profile__avatar">
+        <div class="profile__avatar-overlay">
+          <img src="./images/profile__avatar.jpg" alt="Картинка профиля" class="profile__avatar">
+        </div>
         <div class="profile__info">
           <h1 class="profile__name">Жак-Ив Кусто</h1>
           <p class="profile__career">Исследователь океана</p>
@@ -107,6 +109,25 @@
         <span id="place-link-error" class="form__text-error"></span>
       </label>
       <button class="form__button-submit" type="submit">Создать</button>
+      <button class="popup__button-close" type="button"></button>
+    </form>
+  </section>
+
+  <section class="popup" data-type="avatar">
+    <form class="form" name="avatar">
+      <h2 class="form__title">Обновить аватар</h2>
+      <label class="form__field" for="avatar-link">
+        <input
+          id="avatar-link"
+          class="form__text"
+          type="url"
+          name="avatar-link"
+          placeholder="Ссылка на картинку"
+          required
+        >
+        <span id="avatar-link-error" class="form__text-error"></span>
+      </label>
+      <button class="form__button-submit" type="submit">Сохранить</button>
       <button class="popup__button-close" type="button"></button>
     </form>
   </section>
