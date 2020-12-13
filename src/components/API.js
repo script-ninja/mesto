@@ -4,6 +4,10 @@ export default class API {
     this._token = options.token;
   }
 
+  _getErrorInfo(error) {
+    return Promise.reject(`Error ${error.status}: ${error.statusText}.`);
+  }
+
   getUserData(path) {
     return fetch(this._baseURL + path, {
       method: 'GET',
@@ -14,7 +18,7 @@ export default class API {
     .then(response => {
       return response.ok
         ? response.json()
-        : Promise.reject(`Error ${response.status}: ${response.statusText}.`);
+        : this._getErrorInfo(response);
     });
   }
 
@@ -33,7 +37,7 @@ export default class API {
     .then(response => {
       return response.ok
         ? response.json()
-        : Promise.reject(`Error ${response.status}: ${response.statusText}.`);
+        : this._getErrorInfo(response);
     });
   }
 
@@ -51,7 +55,21 @@ export default class API {
     .then(response => {
       return response.ok
         ? response.json()
-        : Promise.reject(`Error ${response.status}: ${response.statusText}.`);
+        : this._getErrorInfo(response);
     })
+  }
+
+  getCards(path) {
+    return fetch(this._baseURL + path, {
+      method: 'GET',
+      headers: {
+        authorization: this._token
+      }
+    })
+    .then(response => {
+      return response.ok
+        ? response.json()
+        : this._getErrorInfo(response);
+    });
   }
 }

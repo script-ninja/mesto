@@ -50,7 +50,6 @@ const popupWithFormAvatar = new PopupWithForm(
 
     formAvatarValidator._submitButton.disabled = true;
     formAvatarValidator._submitButton.textContent = 'Сохранение ...';
-    // formAvatarValidator._submitButton.classList.add(formAvatarValidator._submitDisabledClass);
 
     const { 'avatar-link': url } = this._getInputValues();
 
@@ -99,9 +98,6 @@ const popupWithImage = new PopupWithImage(
 // Sections ----
 const sectionGallery = new Section(
   {
-    items: initialCards.map(function(card) {
-      return new Card(card, '#photo-card', popupWithImage.open.bind(popupWithImage)).element;
-    }),
     renderer: function(element) {
       this.addItem(element);
     },
@@ -149,7 +145,14 @@ window.onload = function() {
     popupWithFormPlace.open();
   });
 
-  sectionGallery.renderItems();
+  api.getCards('/cards')
+  .then(cards => {
+    const cohortCards = cards.map(card => {
+      return new Card(card, '#photo-card', popupWithImage.open.bind(popupWithImage)).element
+    });
+    sectionGallery.renderItems(cohortCards);
+  })
+  .catch(error => { console.log(error); });
 
   formAvatarValidator.enableValidation();
   formProfileValidator.enableValidation();

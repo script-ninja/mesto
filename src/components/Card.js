@@ -1,10 +1,13 @@
 export default class Card {
-  constructor({ name, link }, templateSelector, handleCardClick) {
-    this._name = name;
+  constructor({ _id, name, link, owner, likes }, templateSelector, handleCardClick) {
+    this._id = _id;
+    this._name = name + ` (${owner.name}: ${owner._id})`; // ! test
     this._link = link;
+    this._owner = owner;
+    this._likes = likes;
     this._templateSelector = templateSelector;
-    this._element = null;
     this._handleCardClick = handleCardClick;
+    this._element = null;
   }
 
   _like(event) {
