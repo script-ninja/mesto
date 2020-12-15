@@ -4,8 +4,10 @@ export default class API {
     this._token = options.token;
   }
 
-  _getErrorInfo(error) {
-    return Promise.reject(`Error ${error.status}: ${error.statusText}.`);
+  _handleResponse(response) {
+    return response.ok
+      ? response.json()
+      : Promise.reject(`Error ${response.status}: ${response.statusText}.`);
   }
 
   getUserData(path) {
@@ -16,9 +18,7 @@ export default class API {
       }
     })
     .then(response => {
-      return response.ok
-        ? response.json()
-        : this._getErrorInfo(response);
+      return this._handleResponse(response);
     });
   }
 
@@ -35,9 +35,7 @@ export default class API {
       })
     })
     .then(response => {
-      return response.ok
-        ? response.json()
-        : this._getErrorInfo(response);
+      return this._handleResponse(response);
     });
   }
 
@@ -53,9 +51,7 @@ export default class API {
       })
     })
     .then(response => {
-      return response.ok
-        ? response.json()
-        : this._getErrorInfo(response);
+      return this._handleResponse(response);
     })
   }
 
@@ -67,9 +63,7 @@ export default class API {
       }
     })
     .then(response => {
-      return response.ok
-        ? response.json()
-        : this._getErrorInfo(response);
+      return this._handleResponse(response);
     });
   }
 
@@ -86,9 +80,7 @@ export default class API {
       })
     })
     .then(response => {
-      return response.ok
-        ? response.json()
-        : this._getErrorInfo(response);
+      return this._handleResponse(response);
     });
   }
 
@@ -100,9 +92,7 @@ export default class API {
       }
     })
     .then(response => {
-      return response.ok
-        ? response.json()
-        : this._getErrorInfo(response);
+      return this._handleResponse(response);
     });
   }
 
@@ -114,9 +104,7 @@ export default class API {
       }
     })
     .then(response => {
-      return response.ok
-        ? response.json()
-        : this._getErrorInfo(response);
+      return this._handleResponse(response);
     });
   }
 }
