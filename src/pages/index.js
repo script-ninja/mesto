@@ -53,12 +53,10 @@ const userInfo = new UserInfo(
 // Popups ----
 const popupWithFormAvatar = new PopupWithForm(
   '.popup[data-type="avatar"]',
-  function(event) {
-    event.preventDefault();
-
+  function(inputValues) {
     this.toggleLoadingStatus('Сохранение ...');
 
-    const { 'avatar-link': url } = this._getInputValues();
+    const { 'avatar-link': url } = inputValues;
 
     api.setUserAvatar('/users/me/avatar', url)
     .then(() => {
@@ -76,12 +74,10 @@ const popupWithFormAvatar = new PopupWithForm(
 
 const popupWithFormProfile = new PopupWithForm(
   '.popup[data-type="profile"]',
-  function(event) {
-    event.preventDefault();
-
+  function(inputValues) {
     this.toggleLoadingStatus('Сохранение ...');
 
-    const { 'user-name': name, 'user-hobby': info } = this._getInputValues();
+    const { 'user-name': name, 'user-hobby': info } = inputValues;
 
     api.setUserData('/users/me', { name, info })
     .then(() => {
@@ -99,12 +95,10 @@ const popupWithFormProfile = new PopupWithForm(
 
 const popupWithFormPlace = new PopupWithForm(
   '.popup[data-type="place"]',
-  function(event) {
-    event.preventDefault();
-
+  function(inputValues) {
     this.toggleLoadingStatus('Создание ...');
 
-    const { 'place-name': name, 'place-link': link } = this._getInputValues();
+    const { 'place-name': name, 'place-link': link } = inputValues;
 
     api.addCard('/cards', { name, link })
     .then(card => {
@@ -125,14 +119,12 @@ const popupWithFormPlace = new PopupWithForm(
 
 const popupWithFormConfirmation = new PopupWithForm(
   '.popup[data-type="confirmation"',
-  function(event) { event.preventDefault(); }
+  function() {}
 );
 
 function handleCardDeletion(card) {
   popupWithFormConfirmation.open();
-  popupWithFormConfirmation.changeSubmitHandler(function (event) {
-    event.preventDefault();
-
+  popupWithFormConfirmation.changeSubmitHandler(function() {
     this.toggleLoadingStatus('Удаление ...');
 
     api.deleteCard('/cards/', card.id)
