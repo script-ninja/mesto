@@ -125,25 +125,28 @@ const popupWithFormPlace = new PopupWithForm(
 
 const popupWithFormConfirmation = new PopupWithForm(
   '.popup[data-type="confirmation"',
-  function(event) {
+  function(event) { event.preventDefault(); }
+);
+
+function handleCardDeletion(card) {
+  popupWithFormConfirmation.open();
+  popupWithFormConfirmation.changeSubmitHandler(function (event) {
     event.preventDefault();
 
     this.toggleLoadingStatus('Удаление ...');
 
-    api.deleteCard('/cards/', this._card.id)
+    api.deleteCard('/cards/', card.id)
     .then(resolved => {
-      this._card.remove();
+      card.remove();
       this.close();
     })
-    .catch(error => { console.log(error); })
+    .catch(error => {
+      console.log(error);
+    })
     .finally(() => {
       this.toggleLoadingStatus('Да');
     });
-  }
-);
-
-function handleCardDeletion(card) {
-  popupWithFormConfirmation.open(card);
+  });
 }
 
 function handleCardLike(event, cardID) {

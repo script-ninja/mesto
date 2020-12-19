@@ -23,11 +23,6 @@ export default class PopupWithForm extends Popup {
     return inputValues;
   }
 
-  open(card) {
-    super.open();
-    this._card = card;
-  }
-
   close() {
     super.close();
     this._formElement.reset();
@@ -36,5 +31,11 @@ export default class PopupWithForm extends Popup {
   toggleLoadingStatus(loadingText) {
     this._submitButton.textContent = loadingText;
     this._submitButton.disabled = !this._submitButton.disabled;
+  }
+
+  changeSubmitHandler(handler) {
+    this._formElement.removeEventListener('submit', this._submitHandler);
+    this._submitHandler = handler.bind(this);
+    this._formElement.addEventListener('submit', this._submitHandler);
   }
 }
