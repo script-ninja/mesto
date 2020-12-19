@@ -10,7 +10,12 @@ export default class UserInfo {
     this.init = init;
   };
 
+  get id() {
+    return this._id;
+  }
+
   getUserInfo() {
+    // метод работает правильно
     return {
       name: this._name,
       info: this._info,
@@ -18,10 +23,11 @@ export default class UserInfo {
     };
   }
 
-  setUserInfo(userName, userInfo, userAvatar = null) {
-    this._nameElement.textContent = this._name = userName;
-    this._infoElement.textContent = this._info = userInfo;
-    if (userAvatar) this.setUserAvatar(userAvatar);
+  setUserInfo({ id = null, name, info, avatar = null }) {
+    if (id) this._id = id;
+    this._nameElement.textContent = this._name = name;
+    this._infoElement.textContent = this._info = info;
+    if (avatar) this.setUserAvatar(avatar);
   }
 
   setUserAvatar(url) {

@@ -34,13 +34,17 @@ const userInfo = new UserInfo(
   function() {
     return api.getUserData('/users/me')
     .then(userData => {
-      userInfo.setUserInfo(userData.name, userData.about, userData.avatar);
-      userInfo._id = userData._id;
-      return Promise.resolve('Done!');
+      userInfo.setUserInfo({
+        id: userData._id,
+        name: userData.name,
+        info: userData.about,
+        avatar: userData.avatar
+      });
+      return Promise.resolve('Данные пользователя получены!');
     })
     .catch(error => {
       console.log(error);
-      return Promise.reject('Error!');
+      return Promise.reject('Ошибка при получении данных пользователя!');
     });
   }
 );
@@ -75,7 +79,7 @@ const popupWithFormProfile = new PopupWithForm(
     const { 'user-name': name, 'user-hobby': info } = this._getInputValues();
 
     api.setUserData('/users/me', { name, info })
-    .then(() => { userInfo.setUserInfo(name, info) })
+    .then(() => { userInfo.setUserInfo({ name, info }) })
     .catch(error => { console.log(error); })
     .finally(() => { this.close(); });
   }
@@ -178,10 +182,10 @@ window.onload = function() {
           const newCard = new Card(
             card, '#photo-card', popupWithImage.open.bind(popupWithImage), handleCardDeletion, handleCardLike
           );
-          if (card.owner._id !== userInfo._id)
+          if (card.owner._id !== userInfo.id)
             newCard.element.querySelector('.photo-card__del-button').remove();
           card.likes.forEach((user) => {
-            if (user._id === userInfo._id)
+            if (user._id === userInfo.id)
               newCard._like(newCard.element.querySelector('.photo-card__like-button'));
           });
           return newCard.element;
