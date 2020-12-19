@@ -6,6 +6,7 @@ export default class PopupWithForm extends Popup {
     this._submitHandler = submitHandler.bind(this);
     this._formElement = this._popup.querySelector('form');
     this._inputList = Array.from(this._formElement.querySelectorAll('input'));
+    this._submitButton = this._formElement.querySelector('button[type="submit"]')
     this._setEventListeners();
   }
 
@@ -30,5 +31,10 @@ export default class PopupWithForm extends Popup {
   close() {
     super.close();
     this._formElement.reset();
+  }
+
+  toggleLoadingStatus(loadingText) {
+    this._submitButton.textContent = loadingText;
+    this._submitButton.disabled = !this._submitButton.disabled;
   }
 }

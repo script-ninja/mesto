@@ -56,15 +56,21 @@ const popupWithFormAvatar = new PopupWithForm(
   function(event) {
     event.preventDefault();
 
-    formAvatarValidator._submitButton.disabled = true;
-    formAvatarValidator._submitButton.textContent = 'Сохранение ...';
+    this.toggleLoadingStatus('Сохранение ...');
 
     const { 'avatar-link': url } = this._getInputValues();
 
     api.setUserAvatar('/users/me/avatar', url)
-    .then(() => { userInfo.setUserAvatar(url); })
-    .catch(error => { console.log(error); })
-    .finally(() => { this.close(); });
+    .then(() => {
+      userInfo.setUserAvatar(url);
+      this.close();
+    })
+    .catch(error => {
+      console.log(error);
+    })
+    .finally(() => {
+      this.toggleLoadingStatus('Сохранить');
+    });
   }
 );
 
@@ -73,15 +79,21 @@ const popupWithFormProfile = new PopupWithForm(
   function(event) {
     event.preventDefault();
 
-    formProfileValidator._submitButton.disabled = true;
-    formProfileValidator._submitButton.textContent = 'Сохранение ...';
+    this.toggleLoadingStatus('Сохранение ...');
 
     const { 'user-name': name, 'user-hobby': info } = this._getInputValues();
 
     api.setUserData('/users/me', { name, info })
-    .then(() => { userInfo.setUserInfo({ name, info }) })
-    .catch(error => { console.log(error); })
-    .finally(() => { this.close(); });
+    .then(() => {
+      userInfo.setUserInfo({ name, info });
+      this.close();
+    })
+    .catch(error => {
+      console.log(error);
+    })
+    .finally(() => {
+      this.toggleLoadingStatus('Сохранить');
+    });
   }
 );
 
@@ -90,8 +102,7 @@ const popupWithFormPlace = new PopupWithForm(
   function(event) {
     event.preventDefault();
 
-    formPlaceValidator._submitButton.disabled = true;
-    formPlaceValidator._submitButton.textContent = 'Создание ...';
+    this.toggleLoadingStatus('Создание ...');
 
     const { 'place-name': name, 'place-link': link } = this._getInputValues();
 
@@ -101,9 +112,14 @@ const popupWithFormPlace = new PopupWithForm(
         card, '#photo-card', popupWithImage.open.bind(popupWithImage), handleCardDeletion, handleCardLike
       );
       sectionGallery.addItem(newCard.element, true);
+      this.close();
     })
-    .catch(error => { console.log(error); })
-    .finally(() => { this.close(); });
+    .catch(error => {
+      console.log(error);
+    })
+    .finally(() => {
+      this.toggleLoadingStatus('Создать');
+    });
   }
 );
 
@@ -111,18 +127,17 @@ const popupWithFormConfirmation = new PopupWithForm(
   '.popup[data-type="confirmation"',
   function(event) {
     event.preventDefault();
-    this._formElement.querySelector('button[type="submit"]').textContent = 'Удаление ...';
+
+    this.toggleLoadingStatus('Удаление ...');
 
     api.deleteCard('/cards/', this._card.id)
     .then(resolved => {
       this._card.element.remove();
+      this.close();
     })
     .catch(error => { console.log(error); })
     .finally(() => {
-      this.close();
-      setTimeout(() => {
-        this._formElement.querySelector('button[type="submit"]').textContent = 'Да';
-      }, 300);
+      this.toggleLoadingStatus('Да');
     });
   }
 );
