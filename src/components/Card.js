@@ -15,6 +15,10 @@ export default class Card {
     this._element = null;
   }
 
+  get id() {
+    return this._id;
+  }
+
   _like(likeButton) {
     likeButton.classList.toggle('photo-card__like-button_liked');
   }
@@ -45,7 +49,7 @@ export default class Card {
       this._like(event.target);
     });
     this._element.querySelector('.photo-card__del-button').addEventListener('click', () => {
-      this._handleCardDeletion({ id: this._id, element: this._element });
+      this._handleCardDeletion(this);
     });
   }
 
@@ -54,5 +58,10 @@ export default class Card {
       this._createElement();
     }
     return this._element;
+  }
+
+  remove() {
+    this._element.remove();
+    this._element = null;
   }
 }

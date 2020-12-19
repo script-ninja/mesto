@@ -132,7 +132,7 @@ const popupWithFormConfirmation = new PopupWithForm(
 
     api.deleteCard('/cards/', this._card.id)
     .then(resolved => {
-      this._card.element.remove();
+      this._card.remove();
       this.close();
     })
     .catch(error => { console.log(error); })
