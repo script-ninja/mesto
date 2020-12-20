@@ -140,38 +140,6 @@ const popupWithFormConfirmation = new PopupWithForm(
   function() {}
 );
 
-
-// function handleCardDeletion(card) {
-//   popupWithFormConfirmation.open();
-//   popupWithFormConfirmation.changeSubmitHandler(function() {
-//     this.toggleLoadingStatus('Удаление ...');
-
-//     api.deleteCard('/cards/', card.id)
-//     .then(resolved => {
-//       card.remove();
-//       this.close();
-//     })
-//     .catch(error => {
-//       console.log(error);
-//     })
-//     .finally(() => {
-//       this.toggleLoadingStatus('Да');
-//     });
-//   });
-// }
-
-// function handleCardLike(cardID, isLiked) {
-//   api.toggleLike(`/cards/likes/${cardID}`, isLiked)
-//   .then(card => {
-//     this.updateLikes(card.likes);
-//     // this._likes = card.likes;
-//     // this._element.querySelector('.photo-card__like-button').textContent = this._likes.length;
-//   })
-//   .catch(error => {
-//     console.log(error);
-//   });
-// }
-
 const popupWithImage = new PopupWithImage(
   '.popup[data-type="photo"]',
   '.photo__image',

@@ -1,6 +1,6 @@
 {
   "name": "praktikum.mesto",
-  "version": "9.0.0",
+  "version": "9.0.8",
   "description": "Сервис публикации фотографий",
   "main": "index.js",
   "scripts": {
