@@ -1,5 +1,5 @@
 export default class UserInfo {
-  constructor({ userNameSelector, userInfoSelector, userAvatarSelector }, init) {
+  constructor({ userNameSelector, userInfoSelector, userAvatarSelector }) {
     this._nameElement = document.querySelector(userNameSelector);
     this._infoElement = document.querySelector(userInfoSelector);
     this._avatarElement = document.querySelector(userAvatarSelector);
@@ -7,7 +7,6 @@ export default class UserInfo {
     this._info = this._infoElement.textContent; // Sailor, researcher
     this._avatar = this._avatarElement.src;     // https://pictures.s3.yandex.net/frontend-developer/common/ava.jpg
     this._id = null;
-    this.init = init;
   };
 
   get id() {

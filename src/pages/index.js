@@ -30,22 +30,6 @@ const userInfo = new UserInfo(
     userNameSelector: '.profile__name',
     userInfoSelector: '.profile__career',
     userAvatarSelector: '.profile__avatar'
-  },
-  function() {
-    return api.getUserData('/users/me')
-    .then(userData => {
-      userInfo.setUserInfo({
-        id: userData._id,
-        name: userData.name,
-        info: userData.about,
-        avatar: userData.avatar
-      });
-      return Promise.resolve('Данные пользователя получены!');
-    })
-    .catch(error => {
-      console.log(error);
-      return Promise.reject('Ошибка при получении данных пользователя!');
-    });
   }
 );
 
@@ -222,28 +206,22 @@ const sectionGallery = new Section(
 // Точка входа ---------------------------------------------------------------
 window.onload = function() {
   Promise.all([
-    userInfo.init()
-    .then(resolved => {
-      api.getCards('/cards')
-      .then(cards => {
-        const cohortCards = cards.map(card => {
-          return createCard(card).element;
-          // return new Card(
-          //   card, userInfo.id, '#photo-card', popupWithImage.open.bind(popupWithImage), handleCardDeletion, handleCardLike
-          // ).element;
-          // if (card.owner._id !== userInfo.id)
-          //   newCard.element.querySelector('.photo-card__del-button').remove();
-          // card.likes.forEach((user) => {
-          //   if (user._id === userInfo.id)
-          //     newCard.like();
-          // });
-        });
-        sectionGallery.renderItems(cohortCards);
-      })
-      .catch(error => { console.log(error); })
-    })
+    api.getUserData('/users/me'),
+    api.getCards('/cards')
   ])
-  .then(resolved => {
+  .then(([userData, cards]) => {
+    userInfo.setUserInfo({
+      id: userData._id,
+      name: userData.name,
+      info: userData.about,
+      avatar: userData.avatar
+    });
+
+    const cohortCards = cards.map(card => {
+      return createCard(card).element;
+    });
+    sectionGallery.renderItems(cohortCards);
+
     document.querySelector('.profile__avatar-overlay').addEventListener('click', () => {
       formAvatarValidator.clearStatus();
       formAvatarValidator._submitButton.textContent = 'Сохранить';
@@ -271,5 +249,7 @@ window.onload = function() {
     formProfileValidator.enableValidation();
     formPlaceValidator.enableValidation();
   })
-  .catch(error => { console.log(error); });
+  .catch(error => {
+    console.log(error);
+  });
 }
