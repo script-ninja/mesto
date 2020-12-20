@@ -50,6 +50,43 @@ const userInfo = new UserInfo(
 );
 
 
+const createCard = (cardData) => {
+  return new Card(
+    cardData,
+    userInfo.id,
+    '#photo-card',
+    popupWithImage.open.bind(popupWithImage),
+    (card) => {
+      popupWithFormConfirmation.open();
+      popupWithFormConfirmation.changeSubmitHandler(function() {
+        this.toggleLoadingStatus('Удаление ...');
+
+        api.deleteCard('/cards/', card.id)
+        .then(() => {
+          card.remove();
+          this.close();
+        })
+        .catch(error => {
+          console.log(error);
+        })
+        .finally(() => {
+          this.toggleLoadingStatus('Да');
+        });
+      });
+    },
+    (card) => {
+      api.toggleLike(`/cards/likes/${card.id}`, card.isLiked())
+      .then(response => {
+        card.updateLikes(response.likes);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    }
+  );
+}
+
+
 // Popups ----
 const popupWithFormAvatar = new PopupWithForm(
   '.popup[data-type="avatar"]',
@@ -102,10 +139,7 @@ const popupWithFormPlace = new PopupWithForm(
 
     api.addCard('/cards', { name, link })
     .then(card => {
-      const newCard = new Card(
-        card, '#photo-card', popupWithImage.open.bind(popupWithImage), handleCardDeletion, handleCardLike
-      );
-      sectionGallery.addItem(newCard.element, true);
+      sectionGallery.addItem(createCard(card).element, true);
       this.close();
     })
     .catch(error => {
@@ -122,33 +156,37 @@ const popupWithFormConfirmation = new PopupWithForm(
   function() {}
 );
 
-function handleCardDeletion(card) {
-  popupWithFormConfirmation.open();
-  popupWithFormConfirmation.changeSubmitHandler(function() {
-    this.toggleLoadingStatus('Удаление ...');
 
-    api.deleteCard('/cards/', card.id)
-    .then(resolved => {
-      card.remove();
-      this.close();
-    })
-    .catch(error => {
-      console.log(error);
-    })
-    .finally(() => {
-      this.toggleLoadingStatus('Да');
-    });
-  });
-}
+// function handleCardDeletion(card) {
+//   popupWithFormConfirmation.open();
+//   popupWithFormConfirmation.changeSubmitHandler(function() {
+//     this.toggleLoadingStatus('Удаление ...');
 
-function handleCardLike(event, cardID) {
-  api.toggleLike(`/cards/likes/${cardID}`, event.target.classList.contains('photo-card__like-button_liked'))
-  .then(card => {
-    this._likes = card.likes;
-    this._element.querySelector('.photo-card__like-button').textContent = this._likes.length;
-  })
-  .catch(error => { console.log(error); });
-}
+//     api.deleteCard('/cards/', card.id)
+//     .then(resolved => {
+//       card.remove();
+//       this.close();
+//     })
+//     .catch(error => {
+//       console.log(error);
+//     })
+//     .finally(() => {
+//       this.toggleLoadingStatus('Да');
+//     });
+//   });
+// }
+
+// function handleCardLike(cardID, isLiked) {
+//   api.toggleLike(`/cards/likes/${cardID}`, isLiked)
+//   .then(card => {
+//     this.updateLikes(card.likes);
+//     // this._likes = card.likes;
+//     // this._element.querySelector('.photo-card__like-button').textContent = this._likes.length;
+//   })
+//   .catch(error => {
+//     console.log(error);
+//   });
+// }
 
 const popupWithImage = new PopupWithImage(
   '.popup[data-type="photo"]',
@@ -164,7 +202,7 @@ const sectionGallery = new Section(
       this.addItem(element);
     },
     isEmpty: function() {
-      return !Boolean(this._container.querySelector('.photo-card'));
+      return !Boolean(this.container.querySelector('.photo-card'));
     },
     toggleEmptyMessage: function() {
       document
@@ -189,16 +227,16 @@ window.onload = function() {
       api.getCards('/cards')
       .then(cards => {
         const cohortCards = cards.map(card => {
-          const newCard = new Card(
-            card, '#photo-card', popupWithImage.open.bind(popupWithImage), handleCardDeletion, handleCardLike
-          );
-          if (card.owner._id !== userInfo.id)
-            newCard.element.querySelector('.photo-card__del-button').remove();
-          card.likes.forEach((user) => {
-            if (user._id === userInfo.id)
-              newCard._like(newCard.element.querySelector('.photo-card__like-button'));
-          });
-          return newCard.element;
+          return createCard(card).element;
+          // return new Card(
+          //   card, userInfo.id, '#photo-card', popupWithImage.open.bind(popupWithImage), handleCardDeletion, handleCardLike
+          // ).element;
+          // if (card.owner._id !== userInfo.id)
+          //   newCard.element.querySelector('.photo-card__del-button').remove();
+          // card.likes.forEach((user) => {
+          //   if (user._id === userInfo.id)
+          //     newCard.like();
+          // });
         });
         sectionGallery.renderItems(cohortCards);
       })

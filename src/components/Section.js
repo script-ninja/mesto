@@ -8,6 +8,10 @@ export default class Section {
     this._container.addEventListener('click', handleItemRemoval.bind(this));
   }
 
+  get container() {
+    return this._container;
+  }
+
   renderItems(items) {
     this._items = items;
     if (items) {
