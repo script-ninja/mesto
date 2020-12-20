@@ -10,8 +10,8 @@ export default class API {
       : Promise.reject(`Error ${response.status}: ${response.statusText}.`);
   }
 
-  getUserData(path) {
-    return fetch(this._baseURL + path, {
+  getUserData() {
+    return fetch(`${this._baseURL}/users/me`, {
       method: 'GET',
       headers: {
         authorization: this._token
@@ -22,8 +22,8 @@ export default class API {
     });
   }
 
-  setUserData(path, { name, info }) {
-    return fetch(this._baseURL + path, {
+  setUserData({ name, info }) {
+    return fetch(`${this._baseURL}/users/me`, {
       method: 'PATCH',
       headers: {
         authorization: this._token,
@@ -39,8 +39,8 @@ export default class API {
     });
   }
 
-  setUserAvatar(path, url) {
-    return fetch(this._baseURL + path, {
+  setUserAvatar(url) {
+    return fetch(`${this._baseURL}/users/me/avatar`, {
       method: 'PATCH',
       headers: {
         authorization: this._token,
@@ -55,8 +55,8 @@ export default class API {
     })
   }
 
-  getCards(path) {
-    return fetch(this._baseURL + path, {
+  getCards() {
+    return fetch(`${this._baseURL}/cards`, {
       method: 'GET',
       headers: {
         authorization: this._token
@@ -67,8 +67,8 @@ export default class API {
     });
   }
 
-  addCard(path, card) {
-    return fetch(this._baseURL + path, {
+  addCard(card) {
+    return fetch(`${this._baseURL}/cards`, {
       method: 'POST',
       headers: {
         authorization: this._token,
@@ -84,8 +84,8 @@ export default class API {
     });
   }
 
-  deleteCard(path, cardID) {
-    return fetch(this._baseURL + path + cardID, {
+  deleteCard(cardID) {
+    return fetch(`${this._baseURL}/cards/${cardID}`, {
       method: 'DELETE',
       headers: {
         authorization: this._token
@@ -96,8 +96,8 @@ export default class API {
     });
   }
 
-  toggleLike(path, isLiked) {
-    return fetch(this._baseURL + path, {
+  toggleLike(cardID, isLiked) {
+    return fetch(`${this._baseURL}/cards/likes/${cardID}`, {
       method: isLiked ? 'DELETE' : 'PUT',
       headers: {
         authorization: this._token

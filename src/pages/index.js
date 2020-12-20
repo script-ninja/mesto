@@ -45,7 +45,7 @@ const createCard = (cardData) => {
       popupWithFormConfirmation.changeSubmitHandler(function() {
         this.toggleLoadingStatus('Удаление ...');
 
-        api.deleteCard('/cards/', card.id)
+        api.deleteCard(card.id)
         .then(() => {
           card.remove();
           this.close();
@@ -59,7 +59,7 @@ const createCard = (cardData) => {
       });
     },
     (card) => {
-      api.toggleLike(`/cards/likes/${card.id}`, card.isLiked())
+      api.toggleLike(card.id, card.isLiked())
       .then(response => {
         card.updateLikes(response.likes);
       })
@@ -79,7 +79,7 @@ const popupWithFormAvatar = new PopupWithForm(
 
     const { 'avatar-link': url } = inputValues;
 
-    api.setUserAvatar('/users/me/avatar', url)
+    api.setUserAvatar(url)
     .then(() => {
       userInfo.setUserAvatar(url);
       this.close();
@@ -100,7 +100,7 @@ const popupWithFormProfile = new PopupWithForm(
 
     const { 'user-name': name, 'user-hobby': info } = inputValues;
 
-    api.setUserData('/users/me', { name, info })
+    api.setUserData({ name, info })
     .then(() => {
       userInfo.setUserInfo({ name, info });
       this.close();
@@ -121,7 +121,7 @@ const popupWithFormPlace = new PopupWithForm(
 
     const { 'place-name': name, 'place-link': link } = inputValues;
 
-    api.addCard('/cards', { name, link })
+    api.addCard({ name, link })
     .then(card => {
       sectionGallery.addItem(createCard(card).element, true);
       this.close();
@@ -174,8 +174,8 @@ const sectionGallery = new Section(
 // Точка входа ---------------------------------------------------------------
 window.onload = function() {
   Promise.all([
-    api.getUserData('/users/me'),
-    api.getCards('/cards')
+    api.getUserData(),
+    api.getCards()
   ])
   .then(([userData, cards]) => {
     userInfo.setUserInfo({
